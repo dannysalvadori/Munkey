@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Bon Voyage!</title>
+<title>${greeting}</title>
 </head>
 <body>
-	<h1>${greeting}</h1>
+	<h1>Bon Voyage!</h1>
 </body>
 </html>

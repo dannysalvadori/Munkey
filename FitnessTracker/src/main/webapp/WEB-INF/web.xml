@@ -11,11 +11,10 @@
 			<param-value>/WEB-INF/config/servlet-config.xml</param-value>
 		</init-param>
 	</servlet>
-	
 	<servlet-mapping>
 		<servlet-name>fitTrackerServlet</servlet-name>
 		<url-pattern>/</url-pattern>
-		
+		<url-pattern>/WEB-INF/pdf/**</url-pattern>
 	</servlet-mapping>
 
 	<display-name>Archetype Created Web Application</display-name>

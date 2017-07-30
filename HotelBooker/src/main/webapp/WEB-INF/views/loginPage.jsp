@@ -7,7 +7,7 @@
 </head>
 <body>
 
-	<h1>Welcome</h1>
+	<h1>Welcome, I guess</h1>
 
 	<!-- The below Spring Form will populate the user object that it was given when the
 		 information is submitted by calling the objects setters (as denoted by the path attribute) -->

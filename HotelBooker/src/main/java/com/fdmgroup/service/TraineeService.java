@@ -1,11 +1,12 @@
 package com.fdmgroup.service;
 
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+
+import com.fdmgroup.entity.Trainee;
 
 public class TraineeService {
 
@@ -67,21 +68,21 @@ public class TraineeService {
 		}
 	}
 	
-	// Update an existing Trainee's first name
-		public void updateTrainee(Trainee trainee) {
-			EntityManager em = getEntityManager();
-			EntityTransaction et = em.getTransaction();
-			Trainee existingTrainee = em.find(Trainee.class, trainee.getTraineeId());
-			try {
-				if (existingTrainee != null) {
-					et.begin();
-					existingTrainee.update(trainee);
-					et.commit();
-				}
-			} finally {
-				em.close();
+	// Update an existing Trainee
+	public void updateTrainee(Trainee trainee) {
+		EntityManager em = getEntityManager();
+		EntityTransaction et = em.getTransaction();
+		Trainee existingTrainee = em.find(Trainee.class, trainee.getTraineeId());
+		try {
+			if (existingTrainee != null) {
+				et.begin();
+				existingTrainee.clone(trainee);
+				et.commit();
 			}
+		} finally {
+			em.close();
 		}
+	}
 
 	// Retrieve a Trainee from the database
 	public Trainee findTrainee(int id) {

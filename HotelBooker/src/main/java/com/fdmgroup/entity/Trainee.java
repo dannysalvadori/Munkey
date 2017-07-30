@@ -1,4 +1,4 @@
-package com.fdmgroup.service;
+package com.fdmgroup.entity;
 
 import javax.persistence.*;
 
@@ -86,7 +86,7 @@ public class Trainee {
 		return true;
 	}
 
-	public void update(Trainee trainee) {
+	public void clone(Trainee trainee) {
 		setUsername(trainee.getUsername());
 		setFirstname(trainee.getFirstname());
 		setLastname(trainee.getLastname());		

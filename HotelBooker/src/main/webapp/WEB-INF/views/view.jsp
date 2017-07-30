@@ -7,7 +7,7 @@
 </head>
 <body>
 
-	<h1>Welcome ${user.firstname}</h1>
+	<h1>Welcome ${user.firstname} (... dick)</h1>
 
 	<div>
 		<p>You have successfully logged in. You details are: <span>${user.firstname} ${user.lastname}</span></p>

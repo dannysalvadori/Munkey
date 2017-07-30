@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.fdmgroup.service.Trainee;
+import com.fdmgroup.entity.Trainee;
 import com.fdmgroup.service.TraineeService;
 
 public class TraineeServiceTest {
@@ -30,7 +30,7 @@ public class TraineeServiceTest {
 		  Note EntityManagerFactory objects are computationally expensive to create and
 		  can be re-used, so only need to be created once. They can be created as a bean in Spring.
 		  You must request the Factory with the same name as that defined in persistence.xml*/
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("trainee_example");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hb_persistence_unit");
 		
 		traineeService = new TraineeService(emf);
 	}

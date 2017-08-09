@@ -11,7 +11,7 @@ public class Room {
 	private Integer id;
 
 	@ManyToOne(optional=false, targetEntity=Hotel.class) 
-    @JoinColumn(name="hotel_id", nullable=false, updatable=false)
+	@JoinColumn(name="hotel_id", nullable=false, updatable=false)
 	private Hotel hotel;
 	
 	@Column

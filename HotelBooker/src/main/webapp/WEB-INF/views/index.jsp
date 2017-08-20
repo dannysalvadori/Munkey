@@ -10,9 +10,7 @@
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/hb_index.css"/>
 </head>
 <body>
-
-	<!--img id="skyLogo" src="<%=request.getContextPath()%>/resources/img/images.jpg"/-->
-	    
+    
     <div id="nav">
         <table width="100%">
             <tr>
@@ -43,23 +41,23 @@
             			<table>
             				<tr>
             					<td>Where are you going?</td>
-            					<td><input placeholder="city or postcode"></td>
+            					<td><input class="Input" placeholder="city or postcode"></td>
             				</tr>
             				<tr>
             					<td>How many guests?</td>
-            					<td><input placeholder="e.g. 4 ..."></td>
+            					<td><input class="Input" placeholder="e.g. 4 ..."  type="Number" min="1" max="50"></td>
             				</tr>
             				<tr>
             					<td>Check-in</td>
-            					<td><input placeholder="check-in..." type="date"></td>
+            					<td><input class="Input" type="date"></td>
             				</tr>
             				<tr>
             					<td>Check-out</td>
-            					<td><input placeholder="check-out..." type="date"></td>
+            					<td><input class="Input" type="date"></td>
             				</tr>
             				<tr>
             				    <td></td>
-            					<td><input class="SubmitButton" type="submit" value="Find Hotels"></td>
+            					<td><input class="SearchSubmitBtn" type="submit" value="Find Hotels"></td>
             				</tr>
             			</table>
             		</form>

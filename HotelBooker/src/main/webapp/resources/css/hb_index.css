@@ -12,14 +12,11 @@
 	height:300px;
 }
 
-input {
+.BoxLight .Input {
+	padding:10px;
+	margin-bottom: 10px;
 	position:relative;
     width:96%;
     left:22%;
     text-align: center;
-}
-
-.submitButton {
-	width:70%;
-    left:33%;
 }

@@ -1,9 +1,141 @@
-/*
-	Author: Danny Salvadori
-	Description: Core CSS for all pages
-	Date: 29/07/2017
+/**
+*	Author: Danny Salvadori
+*	Description: Core CSS for all pages
+*	Date: 29/07/2017
 */
 @charset "ISO-8859-1";
 .text-center {
+	text-align: center;
+}
+
+html {
+   	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-image:url(http://www.trendsandlife.com/wp-content/uploads/2016/06/How-to-Upgrade-Your-Hotel-Room-for-Free-2.jpg);
+    background-color: #76a6d6;
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: cover;
+}
+
+#nav {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    top: -100;
+    left: -10px;
+    padding-top: 15px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    background-color: #0a1c3a;
+}
+
+.Logo {
+    color: white;
+    font-size: 30px;
+    font-family: serif;
+    vertical-align: central;
+    left: 10px;
+}
+
+/*table td {*/
+/*    border: 1px solid red;*/
+/*}*/
+
+.NavOptions {
+    color: white;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.NavOptions td {
+    padding: 5px;
+}
+
+.NavOptions .Option:hover {
+    background-color: #555;
+    color: white;
+}
+
+.NavOptions a {
+    color: white;
+    text-decoration: none;
+}
+
+#skyLogo {
+	position:relative;
+	width: 200px;
+	left: 5%;
+}
+
+#viewLogo {
+	position:relative;
+	width: 320px;
+	left: 7%;
+	bottom:32px;
+}
+
+hr {
+	color:#000066;
+}
+
+.BoxLight {
+    border:0px solid #FF9900;
+	border-radius: 10px;
+	padding:10px;
+	background-color: rgba(240, 240, 240, 0.7);
+	box-shadow: 3px 3px 3px  rgba(100, 100, 100, 0.5);
+	margin: 0px 10px 5px 0px;
+}
+
+.BoxLight h2 {
+	color:#000066;
+	margin: 0px;
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.BoxLight input {
+	border-radius: 10px;
+	padding:10px;
+	box-shadow: 2px 2px 2px #AAAAAA;
+	margin: 0px 0px 10px 0px;
+}
+
+.BoxLight .SubmitButton:hover {
+	border: thin solid #FFCC00;
+	background-color: #FCF9D6;
+	color: #996633;
+	cursor: pointer;
+}
+.BoxLight .SubmitButton:active {
+	border: thin solid #99CC00;
+	background-color: #F5FFD2;
+	color: #664422;
+	cursor: pointer;
+}
+
+.BoxLight .SubmitButton {
+	border: thin solid #F0E020;
+	padding: 3px;
+	background-color: #F8F094;
+	font-weight: bold;
+	color: #663300;
+}
+
+.BoxVibrant {
+    border: 0px solid #244ca0;
+	border-radius: 10px;
+	padding:10px;
+	background-color: #f4bc42;
+	box-shadow: 3px 3px 3px  rgba(100, 100, 100, 0.5);
+	margin: 0px 10px 5px 0px;
+}
+
+.BoxVibrant h2 {
+	color:#000066;
+	margin: 0px;
+	margin-bottom: 20px;
 	text-align: center;
 }

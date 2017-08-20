@@ -1,0 +1,63 @@
+/**
+*	Author: Danny Salvadori
+*	Description: CSS for search page
+*	Date: 20/08/2017
+*/
+@charset "ISO-8859-1";
+.SearchResultItem input {
+    background-color: #244ca0;
+    color: white;
+    font-size: large;
+    height: 34px;
+    padding: 0px;
+}
+
+#SearchForm input {
+    padding-left: 10px;
+}
+
+.Button:hover {
+	background-color: #4c6aaa;
+	cursor: pointer;
+}
+
+.Button:active {
+	background-color: #6980b2;
+	cursor: pointer;
+}
+
+.Select {
+    width: 150px;
+    font-size: x-large;
+}
+
+.Detail {
+    width: 120px;
+}
+
+.SearchResultItem {
+    position: relative;
+    display: table;
+}
+
+.SearchResultItem div {
+    position: relative;
+    padding: 5px 10px 5px 10px;
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.SearchResultItem div:nth-child(2) {
+    width:200px;
+}
+
+.HotelName {
+    color: #244ca0;
+    font-size: large;
+    font-weight: bold;
+}
+
+.Price {
+    color: #f2a413;
+    font-weight: bold;
+}

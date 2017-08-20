@@ -16,6 +16,11 @@ public class DemoController {
 	public String indexPage(Model model){
 		return "index";
 	}
+	
+	@RequestMapping(value="/search")
+	public String runSearch(Model model){
+		return "search";
+	}
 
 	@RequestMapping(value="/login", method=POST)
 	public String homeHandler(Model model){

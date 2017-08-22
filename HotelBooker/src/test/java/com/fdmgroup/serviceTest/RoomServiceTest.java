@@ -33,7 +33,7 @@ public class RoomServiceTest {
 	}
 
 	@Test
-	public void persistRoomInsertsNewUserIntoDatabaseTest() {
+	public void persistRoomInsertsNewRoomIntoDatabaseTest() {
 		roomId++;
 		Room testRoom = createRoom(roomId);
 		Integer testCapacity = testRoom.getCapacity();

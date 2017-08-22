@@ -90,8 +90,8 @@ public class ReservationService {
 	}
 	
 	/**
-	 * Update an existing User instance
-	 * @param user
+	 * Update an existing Reservation instance
+	 * @param reservation
 	 */
 	public void updateReservation(Reservation reservation) {
 		EntityManager em = getEntityManager();

@@ -37,11 +37,11 @@ public class HotelService {
 	}
 	
 	/**
-	 * Fetch all Hotels within 20 kilometres of the specified location
+	 * Fetch all Hotels within a given distance of a given location
 	 * @param latitude
 	 * @param Longitude
-	 * @param distanceKM
-	 * @return List of Hotels within 20 km of the given location
+	 * @param distanceKM (default 20km)
+	 * @return List of Hotels within distanceKM of the given location
 	 */
 	public List<Hotel> findHotelsByLocation(Double latitude, Double longitude) {
 		return findHotelsByLocation(latitude, longitude, 20.0);

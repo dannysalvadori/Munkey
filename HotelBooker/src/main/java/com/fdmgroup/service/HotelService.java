@@ -1,15 +1,11 @@
 package com.fdmgroup.service;
 
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
-
+import javax.persistence.Query;
 import com.fdmgroup.entity.Hotel;
-import com.fdmgroup.entity.Reservation;
-import com.fdmgroup.entity.Room;
 
 public class HotelService {
 
@@ -44,22 +40,30 @@ public class HotelService {
 	 * Fetch all Hotels within 20 kilometres of the specified location
 	 * @param latitude
 	 * @param Longitude
+	 * @param distanceKM
 	 * @return List of Hotels within 20 km of the given location
 	 */
 	public List<Hotel> findHotelsByLocation(Double latitude, Double longitude) {
+		return findHotelsByLocation(latitude, longitude, 20.0);
+	}
+	public List<Hotel> findHotelsByLocation(Double latitude, Double longitude, Double distanceKM) {
 		EntityManager em = getEntityManager();
-		TypedQuery<Hotel> query = em.createQuery(
-			"SELECT "
-				+ "name, "
-				+ "city, "
-				+ "Distance(Latitude, Longitude, "+latitude+", "+longitude+") AS Distance "
-			+ "FROM Hotel "
-			+ "WHERE Distance(Latitude, Longitude, "+latitude+", "+longitude+") < 20"
-				, Hotel.class);
-		List<Hotel> hotelList = query.getResultList(); 
+		
+		Query query = em.createNativeQuery(
+			"SELECT id, name, street, city, postcode, latitude, longitude, "
+				+ "GetDistance(Latitude, Longitude, :latitude, :longitude) AS distance "
+			+ "FROM Hotels "
+			+ "WHERE GetDistance(Latitude, Longitude, :latitude, :longitude) <= :dist"
+			, Hotel.class // Object mapping instructions
+		);
+		query.setParameter("latitude", latitude);
+		query.setParameter("longitude", longitude);
+		query.setParameter("dist", distanceKM);
+		
+		List<Hotel> hotelList = query.getResultList();
 		return hotelList;
 	}
-	
+		
 	/**
 	 * Insert Reservation into the database
 	 * @param reservation

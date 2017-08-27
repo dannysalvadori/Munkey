@@ -10,7 +10,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.fdmgroup.entity.Hotel;
-import com.fdmgroup.entity.Room;
 import com.fdmgroup.service.HotelService;
 
 public class HotelServiceTest {
@@ -32,18 +31,23 @@ public class HotelServiceTest {
 	public void findRoomsByHotelGetsRoomsIfFoundTest() {
 		hotelId++;
 		
-		String hotelName = testHotel.getName();
-		Double hotelLatitude = testHotel.getLatitude();
-		Double hotelLongitude = testHotel.getLongitude();
-				
-		Hotel farawayHotel = createHotel(hotelId);
-		farawayHotel.setLatitude(hotelLatitude+2);
-		farawayHotel.setLongitude(hotelLongitude+2);
-		hotelService.persistHotel(farawayHotel);
+		// Create a Hotel in the middle of the Altlantic Ocean where
+		// no other hotels would realistically be
+		String hotelName = "Middle of the Atlantic Hotel";
+		Double hotelLatitude = 48.181557;
+		Double hotelLongitude = -32.536252;
 		
-		List<Hotel> retrievedHotelList = hotelService.findHotelsByLocation(hotelLatitude, hotelLongitude);
+		Hotel unlikelyHotel = createHotel(hotelId);
+		unlikelyHotel.setName(hotelName);
+		unlikelyHotel.setLatitude(hotelLatitude);
+		unlikelyHotel.setLongitude(hotelLongitude);
+		hotelService.persistHotel(unlikelyHotel);
+		
+		List<Hotel> retrievedHotelList = hotelService.findHotelsByLocation(hotelLatitude, hotelLongitude, 20.0);
 		assertEquals(1, retrievedHotelList.size());
-		assertEquals(hotelName, retrievedHotelList.get(0).getName());
+		Hotel retrievedHotel = retrievedHotelList.get(0);
+		assertEquals(hotelName, retrievedHotel.getName());
+		assert(retrievedHotel.getDistance() == 0.0);
 	}
 
 	@Test

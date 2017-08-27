@@ -31,6 +31,8 @@ public class Hotel {
 	@Column
 	private Double longitude;
 	
+	private Double distance;
+	
 	// Copies non-Id values from a given Hotel instance
 	public void clone(Hotel hotel) {
 		this.name = hotel.getName();
@@ -95,6 +97,14 @@ public class Hotel {
 
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
+	}
+
+	public Double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(Double distance) {
+		this.distance = distance;
 	}
 		
 }

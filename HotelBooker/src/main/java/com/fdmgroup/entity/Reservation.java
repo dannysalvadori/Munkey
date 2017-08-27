@@ -29,7 +29,7 @@ public class Reservation {
 	@Column(name = "end_date")
 	private Date endDate;
 	
-	// Copies non-Id column values from a given User object
+	// Copies non-Id column values from a given Reservation instance
 	public void clone(Reservation reservation) {
 		this.reference = reservation.getReference();
 		this.user = reservation.getUser();
@@ -85,7 +85,5 @@ public class Reservation {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	
-	
 	
 }

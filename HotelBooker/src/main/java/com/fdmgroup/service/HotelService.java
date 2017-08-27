@@ -1,8 +1,10 @@
 package com.fdmgroup.service;
 
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import com.fdmgroup.entity.Hotel;
 
 public class HotelService {
@@ -35,6 +37,34 @@ public class HotelService {
 	}
 	
 	/**
+	 * Fetch all Hotels within a given distance of a given location
+	 * @param latitude
+	 * @param Longitude
+	 * @param distanceKM (default 20km)
+	 * @return List of Hotels within distanceKM of the given location
+	 */
+	public List<Hotel> findHotelsByLocation(Double latitude, Double longitude) {
+		return findHotelsByLocation(latitude, longitude, 20.0);
+	}
+	public List<Hotel> findHotelsByLocation(Double latitude, Double longitude, Double distanceKM) {
+		EntityManager em = getEntityManager();
+		
+		Query query = em.createNativeQuery(
+			"SELECT id, name, street, city, postcode, latitude, longitude, "
+				+ "GetDistance(Latitude, Longitude, :latitude, :longitude) AS distance "
+			+ "FROM Hotels "
+			+ "WHERE GetDistance(Latitude, Longitude, :latitude, :longitude) <= :dist"
+			, Hotel.class // Object mapping instructions
+		);
+		query.setParameter("latitude", latitude);
+		query.setParameter("longitude", longitude);
+		query.setParameter("dist", distanceKM);
+		
+		List<Hotel> hotelList = query.getResultList();
+		return hotelList;
+	}
+		
+	/**
 	 * Insert Reservation into the database
 	 * @param reservation
 	 * @return the persisted Reservation instance
@@ -53,7 +83,7 @@ public class HotelService {
 	}
 	
 	/**
-	 * Remove a Trainee from the database if they exist
+	 * Remove a Hotel from the database if it exists
 	 * @param id
 	 */
 	public void removeHotel(int id) {
@@ -71,23 +101,23 @@ public class HotelService {
 		}
 	}
 	
-//	/**
-//	 * Update an existing User instance
-//	 * @param user
-//	 */
-//	public void updateReservation(Reservation reservation) {
-//		EntityManager em = getEntityManager();
-//		EntityTransaction et = em.getTransaction();
-//		Reservation existingReservation = em.find(Reservation.class, reservation.getId());
-//		try {
-//			if (existingReservation != null) {
-//				et.begin();
-//				existingReservation.clone(reservation);
-//				et.commit();
-//			}
-//		} finally {
-//			em.close();
-//		}
-//	}
+	/**
+	 * Update an existing Hotel instance
+	 * @param hotel
+	 */
+	public void updateHotel(Hotel hotel) {
+		EntityManager em = getEntityManager();
+		EntityTransaction et = em.getTransaction();
+		Hotel existingHotel = em.find(Hotel.class, hotel.getId());
+		try {
+			if (existingHotel != null) {
+				et.begin();
+				existingHotel.clone(hotel);
+				et.commit();
+			}
+		} finally {
+			em.close();
+		}
+	}
 
 }

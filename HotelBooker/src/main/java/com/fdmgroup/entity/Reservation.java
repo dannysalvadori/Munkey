@@ -29,6 +29,12 @@ public class Reservation {
 	@Column(name = "end_date")
 	private Date endDate;
 	
+	public Reservation(){}
+	
+	public Reservation(Integer id) {
+		this.id = id;
+	}
+	
 	// Copies non-Id column values from a given Reservation instance
 	public void clone(Reservation reservation) {
 		this.reference = reservation.getReference();

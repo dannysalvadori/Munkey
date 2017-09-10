@@ -31,6 +31,7 @@ public class Hotel {
 	@Column
 	private Double longitude;
 	
+//	TODO: This should be @Transient but it's breaking the code
 	private Double distance;
 	
 	// Copies non-Id values from a given Hotel instance

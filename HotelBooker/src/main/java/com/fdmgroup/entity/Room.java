@@ -29,6 +29,12 @@ public class Room {
 	@Column(name="price_per_person")
 	private double pricePerPerson;
 	
+	public Room() {}
+	
+	public Room (Integer id) {
+		this.id = id;
+	}
+	
 	// Copies non-Id column values from a given User object
 	public void clone(Room room) {
 		this.hotel = room.getHotel();

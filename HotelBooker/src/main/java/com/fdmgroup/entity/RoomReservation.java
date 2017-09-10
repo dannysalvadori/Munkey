@@ -62,6 +62,7 @@ public class RoomReservation {
 		this.room = roomReservation.getRoom();
 		this.reservation = roomReservation.getReservation();
 		this.reservationDate = roomReservation.getDate();
+		this.hotelId = roomReservation.getHotelId();
 	}
 	
 	public Integer getId() {

@@ -10,7 +10,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 
-import com.fdmgroup.entity.Hotel;
 import com.fdmgroup.entity.RoomReservation;
 
 public class RoomReservationService {
@@ -116,11 +115,14 @@ public class RoomReservationService {
 			"FROM Hotels h " + 
 			"INNER JOIN Rooms r ON h.Id = r.Hotel_Id " + 
 			"INNER JOIN Room_Reservations res ON r.Id = res.Room_Id " + 
-			"WHERE h.Id = 500 " + 
-			"AND res.Reservation_Date > '24-AUG-17' " +
-			"AND res.Reservation_Date < '29-AUG-17' " 
+			"WHERE h.Id = :hotelId " + 
+			"AND res.Reservation_Date > :checkin " +
+			"AND res.Reservation_Date < :checkout " 
 			, "RoomReservationMapping"
 		);
+		query.setParameter("hotelId", hotelId);
+		query.setParameter("checkin", checkin);
+		query.setParameter("checkout", checkout);
 		
 		// Map RoomReservations by their hotels
 		Map<Integer, List<RoomReservation>> hotelResMap

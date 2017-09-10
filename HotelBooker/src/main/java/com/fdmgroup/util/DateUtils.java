@@ -37,7 +37,7 @@ public class DateUtils {
 	 */
 	public static Date createDate(Integer day, Integer month, Integer year) {
 		Calendar calendar = GregorianCalendar.getInstance();
-		calendar.set(year, month, day);
+		calendar.set(year, month-1, day);
 		return calendar.getTime();
 	}
 	

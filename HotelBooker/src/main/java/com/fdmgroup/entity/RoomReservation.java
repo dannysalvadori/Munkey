@@ -3,22 +3,6 @@ package com.fdmgroup.entity;
 import java.util.Date;
 import javax.persistence.*;
 
-//@SqlResultSetMapping(
-//    name = "RoomReservationMapping",
-//    entities = {
-//        @EntityResult(
-//            entityClass = RoomReservation.class,
-//            fields = {
-//            	@FieldResult(name = "id", column = "Id"),
-//                @FieldResult(name = "reservationDate", column = "Reservation_Date"),
-//                @FieldResult(name = "room", column = "Room_Id"),
-//                @FieldResult(name = "reservation", column = "Reservation_Id")
-//            }
-//        )
-//    },
-//    columns = @ColumnResult(name = "Hotel_Id", type = Integer.class)
-//)
-
 @SqlResultSetMapping(
 	name="RoomReservationMapping",
 	classes={
@@ -48,7 +32,7 @@ public class RoomReservation {
 	private Room room;
 	
 	@ManyToOne(optional=false, targetEntity=Reservation.class) 
-    @JoinColumn(name="reservation_id", nullable=false, updatable=false)
+	@JoinColumn(name="reservation_id", nullable=false, updatable=false)
 	private Reservation reservation;
 	
 	@Column(name="reservation_date", nullable = false)

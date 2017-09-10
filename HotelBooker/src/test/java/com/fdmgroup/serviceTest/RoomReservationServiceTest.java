@@ -144,11 +144,12 @@ public class RoomReservationServiceTest {
 		
 		Map<Integer, List<RoomReservation>> resultMap
 			= roomResService.findRoomReservationsByHotel(
-				testHotel.getId(),
-				DateUtils.formatDate(checkin),
-				DateUtils.formatDate(checkout)
+				testHotel.getId(), //500
+				DateUtils.formatDate(checkin), //'24-AUG-17'
+				DateUtils.formatDate(checkout) //'29-AUG-17'
 		);
 		
+		assertTrue("Returned null", resultMap != null);
 		assertTrue("Returned no results", resultMap.keySet().size() > 0);
 		assertTrue("Did not return results for the correct hotel", resultMap.keySet().contains(testHotel.getId()));
 	}

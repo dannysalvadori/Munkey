@@ -74,7 +74,7 @@ public class AvailableHotel {
 			//        option.roomList.add(roomList[0]);
 			//    else... (if next cheapest room's capacity exceeds requirement)
 			//        add cheapest room with enough capacity
-			//        (do so by sorting room list by capacity (asc), then for each, if capacity >= remainingSpaces() option.add(room)
+			//        (do so by sorting room list by capacity (asc), then total price (asc) for each, if capacity >= remainingSpaces() option.add(room)
 		}
 		
 		price = 30.24;

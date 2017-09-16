@@ -1,6 +1,11 @@
 package com.fdmgroup.entity;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 import javax.persistence.*;
+
+import com.fdmgroup.entity.Room.CapacityThenPPNComparator;
 
 @Entity
 @Table(name = "Rooms")
@@ -105,6 +110,43 @@ public class Room {
 		if (capacity > 0) {
 			this.pricePerNight = pricePerPerson * capacity; 
 		}
+	}
+	
+	public class PPPComparator implements Comparator<Room> {
+	    // Used for sorting in ascending order of price per person
+	    public int compare(Room a, Room b) {
+	    	int comparison;
+	        if (a.getPricePerPerson() > b.getPricePerPerson()) {
+	        	comparison = 1;
+	        } else if (a.getPricePerPerson() == b.getPricePerPerson()) {
+	        	comparison = 0;
+	        } else {
+	        	comparison = -1;
+	        }
+	        return comparison;
+	    }
+	}
+	
+	// Collections.sort(roomList, new Room().new CapacityThenPPNComparator());
+	public class CapacityThenPPNComparator implements Comparator<Room> {
+	    // Used for sorting in ascending order of price per person
+	    public int compare(Room a, Room b) {
+	    	int comparison;
+	        if (a.getCapacity() > b.getCapacity()) {
+	        	comparison = 1;
+	        } else if (a.getCapacity() < b.getCapacity()) {
+	        	comparison = -1;
+	        } else {
+	        	if (a.getPricePerNight() > b.getPricePerNight()) {
+	        		comparison = 1;	        		
+	        	} else if (a.getPricePerNight() < b.getPricePerNight()) {
+	        		comparison = -1;
+	        	} else {
+	        		comparison = 0;
+	        	}
+	        }
+	        return comparison;
+	    }
 	}
 	
 }

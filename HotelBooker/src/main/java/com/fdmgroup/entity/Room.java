@@ -1,11 +1,7 @@
 package com.fdmgroup.entity;
 
-import java.util.Collections;
 import java.util.Comparator;
-
 import javax.persistence.*;
-
-import com.fdmgroup.entity.Room.CapacityThenPPNComparator;
 
 @Entity
 @Table(name = "Rooms")

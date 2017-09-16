@@ -54,7 +54,7 @@ public class HotelService {
 				+ "GetDistance(Latitude, Longitude, :latitude, :longitude) AS distance "
 			+ "FROM Hotels "
 			+ "WHERE GetDistance(Latitude, Longitude, :latitude, :longitude) <= :dist"
-			, Hotel.class // Object mapping instructions
+			, "HotelMapping" // Object mapping instructions
 		);
 		query.setParameter("latitude", latitude);
 		query.setParameter("longitude", longitude);

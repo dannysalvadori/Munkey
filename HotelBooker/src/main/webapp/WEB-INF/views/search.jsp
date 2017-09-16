@@ -53,40 +53,27 @@
 	</div>
 	
 	<div id="SearchResultList">
-	    <div class="SearchResultItem BoxLight">
-            <div>
-                <img src="https://media-cdn.tripadvisor.com/media/photo-o/0e/d5/8e/98/hotel-carlos-i.jpg" width="200px"/>
-            </div>
-            <div>
-                <span class="HotelName">Hotel Name</span><br/>
-                <span class="Price">&pound;72.90</span><br/>
-                2 Rooms<br/>
-                1x Double<br/>
-                1x Family<br/>
-        	</div>
-        	<div align="center">
-        		<form action="select(optionId)" method="GET"><input class="Select Button" type="submit" value="Select"/></form>
-        		<form action="expand" method="POST"><input class="Detail Button" type="submit" value="Details"/></form>
-        		<form action="viewHotel(hotelId)" method="GET"><input class="Detail Button" type="submit" value="View Hotel"/></form>
-        	</div>
-		</div>
-		<div class="SearchResultItem BoxLight">
-            <div>
-                <img src="http://rhlgo.net/images/Sarovar-Hotels-Ahmedabad.jpg" width="200px"/>
-            </div>
-            <div>
-                <span class="HotelName">Hotel Fancyo With Very Long Name ...</span><br/>
-                <span class="Price">&pound;52.90</span><br/>
-                2 Rooms<br/>
-                1x Double<br/>
-                1x Family<br/>
-        	</div>
-        	<div align="center">
-        		<form action="select(optionId)" method="GET"><input class="Select Button" type="submit" value="Select"/></form>
-        		<form action="expand" method="POST"><input class="Detail Button" type="submit" value="Details"/></form>
-        		<form action="viewHotel(hotelId)" method="GET"><input class="Detail Button" type="submit" value="View Hotel"/></form>
-        	</div>
-		</div>
+	
+		<c:forEach items="${optionList}" var="option">
+		
+		    <div class="SearchResultItem BoxLight">
+	            <div>
+	                <img src="https://media-cdn.tripadvisor.com/media/photo-o/0e/d5/8e/98/hotel-carlos-i.jpg" width="200px"/>
+	            </div>
+	            <div>
+	                <span class="HotelName"><c:out value="${option.hotelName}" /></span><br/>
+	                <span class="Price">&pound;<c:out value="${option.price}" /></span><br/>
+	                <c:out value="${option.description}" />
+	        	</div>
+	        	<div align="center">
+	        		<form action="select(optionId)" method="GET"><input class="Select Button" type="submit" value="Select"/></form>
+	        		<form action="expand" method="POST"><input class="Detail Button" type="submit" value="Details"/></form>
+	        		<form action="viewHotel(hotelId)" method="GET"><input class="Detail Button" type="submit" value="View Hotel"/></form>
+	        	</div>
+			</div>
+			
+		</c:forEach>
+
     </div>
 	
 </body>

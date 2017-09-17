@@ -1,4 +1,4 @@
-package pojo;
+package com.fdmgroup.pojo;
 
 import java.util.ArrayList;
 import java.util.Date;

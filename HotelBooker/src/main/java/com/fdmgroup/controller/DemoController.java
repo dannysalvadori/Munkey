@@ -7,25 +7,45 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fdmgroup.dev.DevUtils;
 import com.fdmgroup.entity.User;
-
-import pojo.Option;
+import com.fdmgroup.pojo.Option;
+import com.fdmgroup.pojo.SearchParameter;
+import com.fdmgroup.search.OptionHandler;
 
 
 @Controller
 public class DemoController {
 	
-	@RequestMapping(value="/")
-	public String indexPage(Model model){
-		return "index";
+	@RequestMapping(value="/", method = RequestMethod.GET)
+	public ModelAndView indexPage(Model model){
+		return new ModelAndView("index", "searchParameter", new SearchParameter());
 	}
 	
-	@RequestMapping(value="/search")
-	public String runSearch(Model model){
-		List<Option> myList = new ArrayList<Option>();
+	@RequestMapping(value="/search", method=RequestMethod.POST)
+	public String runSearch(
+		@ModelAttribute("searchParameters")SearchParameter searchParameters,
+		Model model,
+		BindingResult result
+	){
+		if (result.hasErrors()) {
+			System.out.println("error - bad search parameters");
+			return "error - bad search parameters";
+		}
+		// TODO: add proper validation on parameters not being left null, etc.
+		
+		System.out.println(searchParameters.getCheckin());
+		System.out.println(searchParameters.getNumberOfGuests());
+	
+		List<Option> myList = OptionHandler.calculateOptions(searchParameters);
+		
+		myList = new ArrayList<Option>();
 		for (int i = 0; i < 10; i++) {
 			Option o = new Option();
 			o.setCapacity(DevUtils.randomIntBetween(2, 6));
@@ -34,6 +54,7 @@ public class DemoController {
 			o.setPrice(DevUtils.roundToNDecimalPlaces(Double.valueOf(o.getCapacity()*15 + Math.random()*2), 5));
 			myList.add(o);
 		}
+		
 		model.addAttribute("optionList", myList);
 		return "search";
 	}

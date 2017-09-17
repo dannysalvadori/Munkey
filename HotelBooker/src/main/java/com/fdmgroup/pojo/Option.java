@@ -1,4 +1,4 @@
-package pojo;
+package com.fdmgroup.pojo;
 
 public class Option {
 

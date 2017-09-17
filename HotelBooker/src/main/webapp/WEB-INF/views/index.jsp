@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,30 +38,30 @@
 	        <td>
             	<div id="searchForm" class="MainItem BoxLight">
             		<h2>Find a Hotel</h2>
-            		<form action="search" method="POST">
+            		<form:form action="search" method="POST" modelAttribute="SearchParameter">
             			<table>
             				<tr>
             					<td>Where are you going?</td>
-            					<td><input class="Input" placeholder="city or postcode"></td>
+            					<td><form:input path="locationString" class="Input" placeholder="city or postcode"/></td>
             				</tr>
             				<tr>
             					<td>How many guests?</td>
-            					<td><input class="Input" placeholder="e.g. 4 ..."  type="Number" min="1" max="50"></td>
+            					<td><form:input path="numberOfGuests" class="Input" placeholder="e.g. 4 ..."  type="Number" min="1" max="50"/></td>
             				</tr>
             				<tr>
             					<td>Check-in</td>
-            					<td><input class="Input" type="date"></td>
+            					<td><form:input path="startDate" class="Input" type="date"/></td>
             				</tr>
             				<tr>
             					<td>Check-out</td>
-            					<td><input class="Input" type="date"></td>
+            					<td><form:input path="endDate" class="Input" type="date"/></td>
             				</tr>
             				<tr>
             				    <td></td>
-            					<td><input class="SearchSubmitBtn" type="submit" value="Find Hotels"></td>
+            					<td><input class="SearchSubmitBtn" type="submit" value="Find Hotels"/></td>
             				</tr>
             			</table>
-            		</form>
+            		</form:form>
             	</div>
             </td>
             <td width="30px">

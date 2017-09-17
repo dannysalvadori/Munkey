@@ -7,12 +7,15 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.fdmgroup.dev.DevUtils;
 import com.fdmgroup.entity.User;
-
-import pojo.Option;
+import com.fdmgroup.pojo.Option;
+import com.fdmgroup.pojo.SearchParameter;
 
 
 @Controller
@@ -20,11 +23,13 @@ public class DemoController {
 	
 	@RequestMapping(value="/")
 	public String indexPage(Model model){
+		model.addAttribute("searchParameters", new SearchParameter());
 		return "index";
 	}
 	
-	@RequestMapping(value="/search")
-	public String runSearch(Model model){
+	@RequestMapping(value="/search", method=RequestMethod.POST)
+	public String runSearch(@ModelAttribute("searchParameters")SearchParameter searchParameters,
+			Model model){
 		List<Option> myList = new ArrayList<Option>();
 		for (int i = 0; i < 10; i++) {
 			Option o = new Option();

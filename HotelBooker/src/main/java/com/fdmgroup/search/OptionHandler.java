@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.fdmgroup.entity.RoomReservation;
-
-import pojo.AvailableHotel;
-import pojo.Option;
+import com.fdmgroup.pojo.AvailableHotel;
+import com.fdmgroup.pojo.Option;
 
 public class OptionHandler {
 	

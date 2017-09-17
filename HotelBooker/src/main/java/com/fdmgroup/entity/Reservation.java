@@ -29,6 +29,9 @@ public class Reservation {
 	@Column(name = "end_date")
 	private Date endDate;
 	
+	@Column(name = "number_of_guests")
+	private Integer numberOfGuests;
+	
 	public Reservation(){}
 	
 	public Reservation(Integer id) {
@@ -42,6 +45,7 @@ public class Reservation {
 		this.hotel = reservation.getHotel();
 		this.startDate = reservation.getStartDate();
 		this.endDate = reservation.getEndDate();
+		this.numberOfGuests = reservation.getNumberOfGuests();
 	}
 	
 	public Integer getId() {
@@ -90,6 +94,14 @@ public class Reservation {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+	
+	public Integer getNumberOfGuests() {
+		return numberOfGuests;
+	}
+	
+	public void setNumberOfGuests(Integer numberOfGuests) {
+		this.numberOfGuests = numberOfGuests;
 	}
 	
 }

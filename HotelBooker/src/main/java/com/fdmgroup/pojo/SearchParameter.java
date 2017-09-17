@@ -7,13 +7,13 @@ import java.util.Date;
  */
 public class SearchParameter {
 
+	private String locationString;
+	
 	private Integer numberOfGuests;
 	
 	private Date checkin;
 	
 	private Date checkout;
-	
-	private String locationString;
 	
 	private Double distance = 20.0;
 	

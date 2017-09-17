@@ -38,7 +38,7 @@
 	        <td>
             	<div id="searchForm" class="MainItem BoxLight">
             		<h2>Find a Hotel</h2>
-            		<form:form action="search" method="POST" modelAttribute="SearchParameter">
+            		<form:form action="search" method="POST" modelAttribute="searchParameter">
             			<table>
             				<tr>
             					<td>Where are you going?</td>
@@ -50,11 +50,11 @@
             				</tr>
             				<tr>
             					<td>Check-in</td>
-            					<td><form:input path="startDate" class="Input" type="date"/></td>
+            					<td><form:input path="checkin" class="Input" type="date"/></td>
             				</tr>
             				<tr>
             					<td>Check-out</td>
-            					<td><form:input path="endDate" class="Input" type="date"/></td>
+            					<td><form:input path="checkout" class="Input" type="date"/></td>
             				</tr>
             				<tr>
             				    <td></td>

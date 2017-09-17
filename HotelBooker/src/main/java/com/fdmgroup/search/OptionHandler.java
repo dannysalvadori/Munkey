@@ -7,16 +7,16 @@ import java.util.Map;
 import com.fdmgroup.entity.RoomReservation;
 import com.fdmgroup.pojo.AvailableHotel;
 import com.fdmgroup.pojo.Option;
+import com.fdmgroup.pojo.SearchParameter;
 
 public class OptionHandler {
 	
 	public static List<AvailableHotel> createAvailableHotels(Map<Integer, List<RoomReservation>> hotelReservationMap) {
 		
-		
 		return null;
 	}
 	
-	public static List<Option> calculateOptions(List<AvailableHotel> availableHotelList) {
+	public static List<Option> calculateOptions(SearchParameter searchParameters) {
 		List<Option> optionList = new ArrayList<Option>();
 		//...
 		

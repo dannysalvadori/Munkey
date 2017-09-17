@@ -1,4 +1,4 @@
-package com.fdmgroup.pojo;
+package com.fdmgroup.search;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +10,7 @@ import javax.persistence.Persistence;
 import com.fdmgroup.entity.Hotel;
 import com.fdmgroup.entity.Room;
 import com.fdmgroup.entity.RoomReservation;
+import com.fdmgroup.pojo.Option;
 import com.fdmgroup.service.RoomService;
 import com.fdmgroup.util.DateUtils;
 
@@ -23,10 +24,10 @@ public class AvailableHotel {
 	private Hotel hotel;
 	
 	// Rooms at this hotel mapped by their Ids
-	private Map<Integer, Room> roomMap;
+//	private Map<Integer, Room> roomMap;
 	
 	// Lists of room reservations mapped to their respective room Ids
-	private Map<Integer, List<RoomReservation>> roomReservationMap;
+//	private Map<Integer, List<RoomReservation>> roomReservationMap;
 	
 	// Brief description of the number and types of rooms in this Option
 	private String description;
@@ -36,12 +37,13 @@ public class AvailableHotel {
 	
 	private Option bestOption;
 	
-	/**
-	 * Calculates the cheapest available deal for the input parameters
-	 */
-	public Option calculateBestOption(Integer numberOfGuests, Date checkin, Date checkout) {
-		Option option = new Option();
-		
+	public static boolean isAvailable(
+		Map<Integer, Room> roomMap,
+		Map<Integer, List<RoomReservation>> roomReservationMap,
+		Integer numberOfGuests,
+		Date checkin,
+		Date checkout
+	) {
 		// Get available rooms for this Hotel
 		List<Integer> availableRoomIdList = new ArrayList<Integer>();
 		for (Integer roomId : roomReservationMap.keySet()) {
@@ -54,18 +56,28 @@ public class AvailableHotel {
 		}
 		
 		// Check the available rooms have enough capacity for the number of guests
-		Boolean isOptionPossible = false;
+		Boolean isAvailable = false;
 		Integer availableCapacity = 0;
 		for (Integer roomId : availableRoomIdList) {
 			availableCapacity += roomMap.get(roomId).getCapacity();
 			if (availableCapacity >= numberOfGuests) {
-				isOptionPossible = true;
+				isAvailable = true;
 				break;
 			}
 		}
+		return isAvailable;
+	}
+	
+	/**
+	 * Calculates the cheapest available deal for the input parameters
+	 */
+	public Option calculateBestOption(Integer numberOfGuests, Date checkin, Date checkout) {
+		Option option = new Option();
+			
+		//ABOVE: logic to determine a Hotel is available. Should be static method.
+		// ...
 		
 		List<Room> availableRoomList = new ArrayList<Room>();//new RoomService.findRoomsByIdList(availableRoomIdList);
-		if (isOptionPossible) {
 			//calculate best option
 			
 			//Sort rooms by price per person, tie-breaking on price overall
@@ -75,7 +87,6 @@ public class AvailableHotel {
 			//    else... (if next cheapest room's capacity exceeds requirement)
 			//        add cheapest room with enough capacity
 			//        (do so by sorting room list by capacity (asc), then total price (asc) for each, if capacity >= remainingSpaces() option.add(room)
-		}
 		
 		price = 30.24;
 		description = "abc";

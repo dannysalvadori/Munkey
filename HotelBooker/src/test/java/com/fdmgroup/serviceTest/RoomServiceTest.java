@@ -3,6 +3,7 @@ package com.fdmgroup.serviceTest;
 import static org.junit.Assert.*;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -57,9 +58,9 @@ public class RoomServiceTest {
 		Integer expectedId = testRoom.getId();
 		roomService.persistRoom(testRoom);
 		
-		List<Room> retrievedRoomList = roomService.findRoomsByHotel(testHotel);
-		assertEquals(1, retrievedRoomList.size());
-		assertEquals(expectedId, retrievedRoomList.get(0).getId());
+		Map<Integer, Room> retrievedRoomMap = roomService.findRoomsByHotel(testHotel);
+		assertEquals(1, retrievedRoomMap.size());
+		assertTrue("Room Map did not contain expected Id", retrievedRoomMap.keySet().contains(expectedId));
 	}
 	
 	@Test
@@ -69,8 +70,8 @@ public class RoomServiceTest {
 		testHotel.setId(100);
 		hotelService.persistHotel(testHotel);
 		
-		List<Room> retrievedRoomList = roomService.findRoomsByHotel(testHotel);
-		assertEquals(0, retrievedRoomList.size());
+		Map<Integer, Room> retrievedRoomMap = roomService.findRoomsByHotel(testHotel);
+		assertEquals(0, retrievedRoomMap.size());
 	}
 
 	@Test

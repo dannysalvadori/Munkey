@@ -43,10 +43,7 @@ public class HotelService {
 	 * @param distanceKM (default 20km)
 	 * @return List of Hotels within distanceKM of the given location
 	 */
-	public List<Hotel> findHotelsByLocation(Double latitude, Double longitude) {
-		return findHotelsByLocation(latitude, longitude, 20.0);
-	}
-	public List<Hotel> findHotelsByLocation(Double latitude, Double longitude, Double distanceKM) {
+	public List<Hotel> findHotelsByLocation(double latitude, double longitude, Double distanceKM) {
 		EntityManager em = getEntityManager();
 		
 		Query query = em.createNativeQuery(
@@ -59,6 +56,18 @@ public class HotelService {
 		query.setParameter("latitude", latitude);
 		query.setParameter("longitude", longitude);
 		query.setParameter("dist", distanceKM);
+		
+		List<Hotel> hotelList = query.getResultList();
+		return hotelList;
+	}
+	public List<Hotel> findHotels() {
+		EntityManager em = getEntityManager();
+		
+		Query query = em.createNativeQuery(
+			"SELECT *"
+			+ "FROM Hotels "
+			, Hotel.class
+		);
 		
 		List<Hotel> hotelList = query.getResultList();
 		return hotelList;

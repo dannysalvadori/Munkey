@@ -1,5 +1,13 @@
 package com.fdmgroup.entity;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
@@ -8,6 +16,9 @@ import javax.persistence.Id;
 import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import com.fdmgroup.pojo.SearchParameter;
+import com.fdmgroup.util.DateUtils;
 
 @SqlResultSetMapping(
 	name="HotelMapping",
@@ -57,6 +68,12 @@ public class Hotel {
 	@Transient
 	private Double distance;
 	
+	@Transient
+	private Map<Integer, Room> roomMap;
+	
+	@Transient
+	private Map<Integer, List<RoomReservation>> roomResMap;
+	
 	public Hotel() {}
 	
 	public Hotel(
@@ -77,8 +94,64 @@ public class Hotel {
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.distance = distance;
+		this.roomMap = new HashMap<Integer, Room>();
+		this.roomResMap = new HashMap<Integer, List<RoomReservation>>();
+		//roomMap = // RoomService.(pass emf into this constructor?).findRoomsByHotel
 	}
 	
+	/**
+	 * Returns true if this Hotel instance has sufficient vacancies for a given search  
+	 * @param param Instance of SearchParameter containing checkin and checkout dates and the number of guests 
+	 * @return boolean
+	 */
+	public boolean isAvailable(SearchParameter param) {
+		// Assumed false
+		Boolean isAvailable = false;
+		
+		// Get available rooms for this Hotel
+		Set<Integer> availableRoomIdSet = roomMap.keySet(); 
+		for (Integer roomId : roomResMap.keySet()) {
+			System.out.println("Iterating over something it shouldnt!!");
+			for (RoomReservation roomRes : roomResMap.get(roomId)) {
+				Date resDate = roomRes.getDate();
+				if ( resDate.after(param.getCheckin()) && resDate.before(param.getCheckout())
+						|| DateUtils.isSameDay(resDate, param.getCheckin())
+						|| DateUtils.isSameDay(resDate, param.getCheckout())
+				) {
+					availableRoomIdSet.remove(roomId);
+					continue;
+				}
+			}
+		}
+		
+		// Check the available rooms have enough capacity for the number of guests
+		Integer availableCapacity = 0;
+		for (Integer roomId : availableRoomIdSet) {
+			availableCapacity += roomMap.get(roomId).getCapacity();
+			if (availableCapacity >= param.getNumberOfGuests()) {
+				isAvailable = true;
+				break;
+			}
+		}
+		return isAvailable;
+	}
+	
+	public Map<Integer, Room> getRoomMap() {
+		return roomMap;
+	}
+
+	public void setRoomMap(Map<Integer, Room> roomMap) {
+		this.roomMap = roomMap;
+	}
+
+	public Map<Integer, List<RoomReservation>> getRoomResMap() {
+		return roomResMap;
+	}
+
+	public void setRoomResMap(Map<Integer, List<RoomReservation>> roomResMap) {
+		this.roomResMap = roomResMap;
+	}
+
 	// Copies non-Id values from a given Hotel instance
 	public void clone(Hotel hotel) {
 		this.name = hotel.getName();

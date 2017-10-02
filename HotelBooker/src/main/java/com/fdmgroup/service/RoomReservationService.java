@@ -105,7 +105,7 @@ public class RoomReservationService {
 	}
 	
 	/**
-	 * Update an existing Hotel instance
+	 * Return a map of Room Ids to a list of their reservations for a given Hotel
 	 * @param hotel
 	 */
 	public Map<Integer, List<RoomReservation>> findRoomReservationsByHotel(Integer hotelId, String checkin, String checkout) {
@@ -125,19 +125,20 @@ public class RoomReservationService {
 		query.setParameter("checkout", checkout);
 		
 		// Map RoomReservations by their hotels
-		Map<Integer, List<RoomReservation>> hotelResMap
+		Map<Integer, List<RoomReservation>> roomResMap
 			= new HashMap<Integer, List<RoomReservation>>();
 		
 		List<RoomReservation> allRoomReservationsList = query.getResultList();
+		System.out.println("allRoomReservationsList:" + allRoomReservationsList);
 		
 		for (RoomReservation res : allRoomReservationsList) {
-			Integer hId = res.getHotelId();
-			if (!hotelResMap.containsKey(hId)) {
-				hotelResMap.put(hId, new ArrayList<RoomReservation>());
+			Integer roomId = res.getRoom().getId();
+			if (!roomResMap.containsKey(roomId)) {
+				roomResMap.put(roomId, new ArrayList<RoomReservation>());
 			}
-			hotelResMap.get(hId).add(res);
+			roomResMap.get(roomId).add(res);
 		}
-		return hotelResMap;
+		return roomResMap;
 	}
 
 }

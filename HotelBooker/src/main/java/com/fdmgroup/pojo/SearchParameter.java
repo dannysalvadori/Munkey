@@ -2,6 +2,8 @@ package com.fdmgroup.pojo;
 
 import java.util.Date;
 
+//import javax.validation.constraints.NotNull;
+
 /**
  * Hold search parameters for calculating Options
  */
@@ -9,6 +11,7 @@ public class SearchParameter {
 
 	private String locationString;
 	
+//	@NotNull
 	private Integer numberOfGuests;
 	
 	private Date checkin;
@@ -17,16 +20,16 @@ public class SearchParameter {
 	
 	private Double distance = 20.0;
 	
-	private Double latitude;
+	private double latitude;
 	
-	private Double longitude;
+	private double longitude;
 	
 	public SearchParameter() {
-		System.out.println("I got instantiated!");
+		System.out.println("SearchParameter default constuctor!");
 	}
 	
 	public SearchParameter(String locationString, Integer numberOfGuests, Date checkin, Date checkout) {
-		setLatLong(locationString);
+		System.out.println("SearchParameter parameterised constuctor!");
 		this.locationString = locationString;
 		this.numberOfGuests = numberOfGuests;
 		this.checkin = checkin;
@@ -36,9 +39,10 @@ public class SearchParameter {
 	/**
 	 * TODO: Will populate latitude and longitude of specified location string
 	 */
-	private void setLatLong(String location) {
-		//latitude = abc;
-		//longitude = xyz;
+	public void findLatLong() {
+		// use locationString
+		latitude = 50.0;
+		longitude = -0.9;
 	}
 
 	public Integer getNumberOfGuests() {
@@ -81,11 +85,11 @@ public class SearchParameter {
 		this.distance = distance;
 	}
 
-	public Double getLatitude() {
+	public double getLatitude() {
 		return latitude;
 	}
 	
-	public void setLatitude(Double latitude) {
+	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
 
@@ -95,6 +99,13 @@ public class SearchParameter {
 
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
+	}
+	
+	@Override
+	public String toString() {
+		return "SearchParameter [locationString=" + locationString + ", numberOfGuests=" + numberOfGuests + ", checkin="
+				+ checkin + ", checkout=" + checkout + ", distance=" + distance + ", latitude=" + latitude
+				+ ", longitude=" + longitude + "]";
 	}
 	
 }

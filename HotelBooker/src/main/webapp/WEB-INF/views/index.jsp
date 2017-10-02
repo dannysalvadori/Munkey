@@ -47,6 +47,7 @@
             				<tr>
             					<td>How many guests?</td>
             					<td><form:input path="numberOfGuests" class="Input" placeholder="e.g. 4 ..."  type="Number" min="1" max="50"/></td>
+            					<td><form:errors path="numberOfGuests" cssClass="error" /></td>
             				</tr>
             				<tr>
             					<td>Check-in</td>

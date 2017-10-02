@@ -15,15 +15,14 @@ public class HotelService {
 		this.emf = emf;
 	}
 
-	// N.B: Don't forget to close connection once transaction is complete!
 	public EntityManager getEntityManager() {
 		return emf.createEntityManager();
 	}
 
 	/**
-	 * Fetch Reservation from database by Id
+	 * Fetch Hotel from database by Id
 	 * @param id
-	 * @return Reservation identified by the given id
+	 * @return Hotel identified by the given id
 	 */
 	public Hotel findHotel(int id) {
 		Hotel hotel;
@@ -60,6 +59,11 @@ public class HotelService {
 		List<Hotel> hotelList = query.getResultList();
 		return hotelList;
 	}
+	
+	/**
+	 * Gets all Hotels. Used for testing only.
+	 * @return
+	 */
 	public List<Hotel> findHotels() {
 		EntityManager em = getEntityManager();
 		
@@ -74,9 +78,9 @@ public class HotelService {
 	}
 		
 	/**
-	 * Insert Reservation into the database
-	 * @param reservation
-	 * @return the persisted Reservation instance
+	 * Insert Hotel into the database
+	 * @param hotel
+	 * @return the persisted Hotel instance
 	 */
 	public Hotel persistHotel(Hotel hotel) {
 		EntityManager em = getEntityManager();

@@ -20,7 +20,6 @@ public class RoomService {
 		this.emf = emf;
 	}
 
-	// N.B: Don't forget to close connection once transaction is complete!
 	public EntityManager getEntityManager() {
 		return emf.createEntityManager();
 	}
@@ -42,7 +41,7 @@ public class RoomService {
 	}
 	
 	/**
-	 * Fetch all Rooms with the specified Hotel
+	 * Fetch all Rooms for the specified Hotel
 	 * @param Hotel
 	 * @return List of Rooms that belong to the given Hotel
 	 */
@@ -60,7 +59,7 @@ public class RoomService {
 	
 	/**
 	 * Insert Room into the database
-	 * @param Room
+	 * @param room
 	 * @return the persisted Room instance
 	 */
 	public Room persistRoom(Room room) {

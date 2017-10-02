@@ -6,8 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-//import javax.validation.Valid;
-
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,47 +56,35 @@ public class SearchController {
 	 */
 	@RequestMapping(value="/search", method=RequestMethod.POST)
 	public String runSearch(
-//		@ModelAttribute("searchParameters") @Valid SearchParameter searchParameters,
 		@ModelAttribute("searchParameters") SearchParameter searchParameters,
 		BindingResult result,
 		Model model		
 	){
 		if (result.hasErrors()) {
+			//TODO: Proper error handlnig
 			System.out.println("error - bad search parameters");
 			model.addAttribute("searchParameters", searchParameters);
 			return "index";
 		}
-		// TODO: add proper validation on parameters not being left null, etc.
-		searchParameters.findLatLong();
-//		System.out.println("Location: " + searchParameters.getLocationString());
-//		System.out.println("Lat / Long: " + searchParameters.getLatitude() + " / " + searchParameters.getLongitude());
-//		System.out.println("Number of Guests: " + searchParameters.getNumberOfGuests());
-//		System.out.println("Checkin: " + searchParameters.getCheckin());
-//		System.out.println("Checkout: " + searchParameters.getCheckout());
+		// TODO: Translate search location into latitude and longitude 
+		searchParameters.findLatLong();		
 		
-		
+		// Get options and add to model
 		List<Option> optionList = OptionHandler.calculateOptions(searchParameters);
-		
 		model.addAttribute("optionList", optionList);
 		return "search";
 	}
 
+	/**
+	 * TODO: log in functionality
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="/login", method=POST)
 	public String homeHandler(Model model){
-		/* Login page contains a Spring form.
-		 * Before we load loginPage.jsp, we need to add a User object to the Model
-		 * for the form to populate
-		 */
 		User user = new User();
 		model.addAttribute("userObj", user);
 		return "loginPage";
 	}
-
-	//The user object here is being passed from the Spring form
-//	@RequestMapping(value="/submit", method=POST)
-//	public String submitHandler(Model model, User user){
-//		model.addAttribute("user",user);
-//		return "view";
-//	}
 
 }

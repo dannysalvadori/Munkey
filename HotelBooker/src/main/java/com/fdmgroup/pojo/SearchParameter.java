@@ -2,16 +2,13 @@ package com.fdmgroup.pojo;
 
 import java.util.Date;
 
-//import javax.validation.constraints.NotNull;
-
 /**
- * Hold search parameters for calculating Options
+ * Holds search parameters for calculating options
  */
 public class SearchParameter {
 
 	private String locationString;
 	
-//	@NotNull
 	private Integer numberOfGuests;
 	
 	private Date checkin;
@@ -20,27 +17,15 @@ public class SearchParameter {
 	
 	private Double distance = 20.0;
 	
-	private double latitude;
+	private Double latitude;
 	
-	private double longitude;
-	
-	public SearchParameter() {
-		System.out.println("SearchParameter default constuctor!");
-	}
-	
-	public SearchParameter(String locationString, Integer numberOfGuests, Date checkin, Date checkout) {
-		System.out.println("SearchParameter parameterised constuctor!");
-		this.locationString = locationString;
-		this.numberOfGuests = numberOfGuests;
-		this.checkin = checkin;
-		this.checkout = checkout;
-	}
+	private Double longitude;
 	
 	/**
 	 * TODO: Will populate latitude and longitude of specified location string
 	 */
 	public void findLatLong() {
-		// use locationString
+		// use locationString and geoCoding to get latitude and longitude
 		latitude = 50.0;
 		longitude = -0.9;
 	}

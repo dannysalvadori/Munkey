@@ -14,14 +14,16 @@ public class Option {
 	
 	private String description;
 	
-	// May exceed required capacity; used in option calculation
+	/**
+	 * May exceed capacity required by a search. Used to calculate the best option 
+	 */
 	private Integer capacity;
 	
+	/**
+	 * The list of rooms proposed in this option
+	 */
 	private List<Room> roomList;
 
-	public String getHotelName() {
-		return hotelName;
-	}
 	
 	public Option() {
 		super();
@@ -36,12 +38,16 @@ public class Option {
 	}
 
 	/**
-	 * Add room to list and count capacity
+	 * Add a room to the room list and increment capacity accordingly
 	 * @param room
 	 */
 	public void addRoom(Room room) {
 		roomList.add(room);
 		capacity += room.getCapacity();
+	}
+	
+	public String getHotelName() {
+		return hotelName;
 	}
 
 	public void setHotelName(String hotelName) {

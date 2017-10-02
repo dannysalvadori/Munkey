@@ -38,7 +38,10 @@ public class Reservation {
 		this.id = id;
 	}
 	
-	// Copies non-Id column values from a given Reservation instance
+	/**
+	 * Copies non-Id column values from a given Reservation instance
+	 * @param reservation
+	 */
 	public void clone(Reservation reservation) {
 		this.reference = reservation.getReference();
 		this.user = reservation.getUser();

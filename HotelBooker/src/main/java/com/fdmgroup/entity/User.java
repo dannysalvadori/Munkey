@@ -28,7 +28,10 @@ public class User {
 	@Column(name = "billing_country")
 	private String billingCountry;
 	
-	// Copies non-Id column values from a given User object
+	/**
+	 * Copies non-Id column values from a given User object
+	 * @param user
+	 */
 	public void clone(User user) {
 		setFirstname(user.getFirstname());
 		setLastname(user.getLastname());

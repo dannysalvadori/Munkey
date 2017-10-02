@@ -14,7 +14,6 @@ public class ReservationService {
 		this.emf = emf;
 	}
 
-	// N.B: Don't forget to close connection once transaction is complete!
 	public EntityManager getEntityManager() {
 		return emf.createEntityManager();
 	}
@@ -43,8 +42,8 @@ public class ReservationService {
 	public Reservation findReservationByReference(String reference) {
 		EntityManager em = getEntityManager();
 		TypedQuery<Reservation> query = em.createQuery(
-				"SELECT r from Reservation r"
-				+ " WHERE reference = '" + reference + "'", Reservation.class);
+			"SELECT r from Reservation r"
+			+ " WHERE reference = '" + reference + "'", Reservation.class);
 		Reservation result = null;
 		if (query.getResultList().size() == 1) {
 			result = query.getResultList().get(0); 
@@ -71,7 +70,7 @@ public class ReservationService {
 	}
 	
 	/**
-	 * Remove a Trainee from the database if they exist
+	 * Remove a Reservation from the database if it exists
 	 * @param id
 	 */
 	public void removeReservation(int id) {

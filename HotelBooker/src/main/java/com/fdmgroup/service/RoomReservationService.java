@@ -20,7 +20,6 @@ public class RoomReservationService {
 		this.emf = emf;
 	}
 
-	// N.B: Don't forget to close connection once transaction is complete!
 	public EntityManager getEntityManager() {
 		return emf.createEntityManager();
 	}
@@ -42,15 +41,21 @@ public class RoomReservationService {
 	}
 	
 	/**
-	 * Insert RoomReservation into the database
-	 * @param recordList A list of RoomReservation instances
-	 * @return the persisted list of RoomReservations instances
+	 * Inserts a single instance of RoomReservation into the database
+	 * @param roomReservation
+	 * @return the persisted record in a list
 	 */
 	public List<RoomReservation> persistRoomReservation(RoomReservation roomReservation) {
 		List<RoomReservation> roomReservationList = new ArrayList<RoomReservation>();
 		roomReservationList.add(roomReservation);
 		return persistRoomReservation(roomReservationList);
 	}	
+	
+	/**
+	 * Insert RoomReservation into the database
+	 * @param recordList A list of RoomReservation instances
+	 * @return the persisted list of RoomReservations instances
+	 */
 	public List<RoomReservation> persistRoomReservation(List<RoomReservation> recordList) {
 		EntityManager em = getEntityManager();
 		EntityTransaction et = em.getTransaction();
@@ -129,7 +134,6 @@ public class RoomReservationService {
 			= new HashMap<Integer, List<RoomReservation>>();
 		
 		List<RoomReservation> allRoomReservationsList = query.getResultList();
-		System.out.println("allRoomReservationsList:" + allRoomReservationsList);
 		
 		for (RoomReservation res : allRoomReservationsList) {
 			Integer roomId = res.getRoom().getId();

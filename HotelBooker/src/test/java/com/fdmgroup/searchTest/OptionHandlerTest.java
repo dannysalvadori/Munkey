@@ -101,7 +101,11 @@ public class OptionHandlerTest {
 	public void generateOptionsReturnsListOfOptionsTest() {
 		Date checkin = DateUtils.createDate(1, 1, 2000);
 		Date checkout = DateUtils.createDate(5, 1, 2000);
-		SearchParameter param = new SearchParameter("Hatfield", 4, checkin, checkout);
+		SearchParameter param = new SearchParameter();
+		param.setLocationString("Hatfield");
+		param.setNumberOfGuests(4);
+		param.setCheckin(checkin);
+		param.setCheckout(checkout);
 		param.setDistance(20000000.0);
 		Object resultObj = OptionHandler.calculateOptions(param);
 		assertTrue("calculateOptions did not return a list", resultObj instanceof List<?>);

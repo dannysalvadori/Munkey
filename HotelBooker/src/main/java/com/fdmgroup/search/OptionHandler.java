@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+
 import com.fdmgroup.entity.Hotel;
 import com.fdmgroup.entity.Room;
 import com.fdmgroup.pojo.Option;
@@ -15,6 +16,11 @@ import com.fdmgroup.util.DateUtils;
 
 public class OptionHandler {
 		
+	/**
+	 * Returns a list of reservation options that are available for the given search parameters. 
+	 * @param param Instance of SearchParameter
+	 * @return
+	 */
 	public static List<Option> calculateOptions(SearchParameter param) {
 		
 		List<Option> optionList = new ArrayList<Option>();
@@ -23,14 +29,13 @@ public class OptionHandler {
 		RoomReservationService roomResService = new RoomReservationService(emf);
 		RoomService roomService = new RoomService(emf);
 		
-		//...
-		
 		System.out.println("All hotels: " + new HotelService(emf).findHotels());
 		List<Hotel> localHotelList = new HotelService(emf).findHotelsByLocation(
 			param.getLatitude(),
 			param.getLongitude(),
 			param.getDistance()
 		);
+		// TODO: Cleanup these sysouts!
 		System.out.println("Found " + localHotelList.size() + " potential hotels.");
 		
 		for (Hotel localHotel : localHotelList) {
@@ -46,10 +51,9 @@ public class OptionHandler {
 			System.out.println("Res map: " + localHotel.getRoomResMap());
 		}
 
-		// Discard hotels without sufficient vacancies
+		// Filter out hotels without sufficient vacancies
 		List<Hotel> availableHotelList = new ArrayList<Hotel>();
 		for (Hotel hotel : localHotelList) {
-			System.out.println("Hotel is avaialble? " + hotel.isAvailable(param));
 			if (hotel.isAvailable(param)) {
 				availableHotelList.add(hotel);
 			}
@@ -63,33 +67,31 @@ public class OptionHandler {
 		return optionList;
 	}
 	
+	/**
+	 * Calculates the cheapest option for a given hotel with given parameters
+	 * @param h Instance of Hotel
+	 * @param p instance of SearchParameter
+	 * @return
+	 */
 	private static Option calculateCheapestOption(Hotel h, SearchParameter p) {
 		Option o = new Option(h);
 		List<Room> roomList = new ArrayList<Room>();
 		for (Room r : h.getRoomMap().values()) {
 			roomList.add(r);
 		}
-		//TODO: backup checks that roomList isn't empty and that capacity is reached
-		//Note this shouldn't come up because an AVAILABLE hotel will have done this check once already
+		// TODO: backup checks that roomList isn't empty and that capacity is reached
+		// Note this shouldn't come up because an AVAILABLE hotel will have done this check once already
 		
 		// Sort rooms by price per person (asc)
-		System.out.println("roomList.size(): " + roomList.size());
 		roomList.sort(new Room(). new PPPComparator());
-		System.out.println("roomList.size(): " + roomList.size());
-		System.out.println("roomList.get(0): " + roomList.get(0));
 		
-		// Meet option capacity with cheapest rooms
+		// Meet the required capacity with the cheapest rooms
 		while (o.getCapacity() < p.getNumberOfGuests()) {
 			
 			// Add room if it has less than or equal capacity to the remaining capacity to fill
-			System.out.println("roomList.size(): " + roomList.size());
-			if (roomList.get(0).getCapacity() 
-					<= p.getNumberOfGuests() - o.getCapacity()) {
-				System.out.println("o.getCapacity(): " + o.getCapacity());
+			if (roomList.get(0).getCapacity() <= p.getNumberOfGuests() - o.getCapacity()) {
 				o.addRoom(roomList.get(0));
-				System.out.println("o.getCapacity(): " + o.getCapacity());
 				roomList.remove(0);
-				System.out.println("o.capacity after removal: " + o.getCapacity());
 				
 			} else { // If cheapest room has more capacity than needed, get cheapest overall room instead
 				

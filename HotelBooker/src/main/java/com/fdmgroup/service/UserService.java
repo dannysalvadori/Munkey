@@ -13,7 +13,6 @@ public class UserService {
 		this.emf = emf;
 	}
 
-	// N.B: Don't forget to close connection once transaction is complete!
 	public EntityManager getEntityManager() {
 		return emf.createEntityManager();
 	}
@@ -53,7 +52,7 @@ public class UserService {
 	}
 	
 	/**
-	 * Remove a Trainee from the database if they exist
+	 * Remove a User from the database if it exists
 	 * @param id
 	 */
 	public void removeUser(int id) {

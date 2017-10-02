@@ -1,16 +1,11 @@
 package com.fdmgroup.search;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-
 import com.fdmgroup.entity.Hotel;
 import com.fdmgroup.entity.Room;
-import com.fdmgroup.entity.RoomReservation;
 import com.fdmgroup.pojo.Option;
 import com.fdmgroup.pojo.SearchParameter;
 import com.fdmgroup.service.HotelService;

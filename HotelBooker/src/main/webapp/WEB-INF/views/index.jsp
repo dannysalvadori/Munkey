@@ -42,20 +42,20 @@
             			<table>
             				<tr>
             					<td>Where are you going?</td>
-            					<td><form:input path="locationString" class="Input" placeholder="city or postcode"/></td>
+            					<td><form:input path="locationString" class="Input" placeholder="city or postcode" required="true" autofocus="true"/></td>
             				</tr>
             				<tr>
             					<td>How many guests?</td>
-            					<td><form:input path="numberOfGuests" class="Input" placeholder="e.g. 4 ..."  type="Number" min="1" max="50"/></td>
+            					<td><form:input path="numberOfGuests" class="Input" placeholder="e.g. 4 ..."  type="Number" min="1" max="50" required="true"/></td>
             					<td><form:errors path="numberOfGuests" cssClass="error" /></td>
             				</tr>
             				<tr>
             					<td>Check-in</td>
-            					<td><form:input path="checkin" class="Input" type="date"/></td>
+            					<td><form:input path="checkin" class="Input" type="date" required="true"/></td>
             				</tr>
             				<tr>
             					<td>Check-out</td>
-            					<td><form:input path="checkout" class="Input" type="date"/></td>
+            					<td><form:input path="checkout" class="Input" type="date" required="true"/></td>
             				</tr>
             				<tr>
             				    <td></td>

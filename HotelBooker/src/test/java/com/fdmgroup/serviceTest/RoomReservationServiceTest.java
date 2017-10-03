@@ -149,9 +149,11 @@ public class RoomReservationServiceTest {
 				DateUtils.formatDate(checkout) //'29-AUG-17'
 		);
 		
+		Integer expectedRoomId = testRoom.getId();
+		
 		assertTrue("Returned null", resultMap != null);
 		assertTrue("Returned no results", resultMap.keySet().size() > 0);
-		assertTrue("Did not return results for the correct hotel", resultMap.keySet().contains(testHotel.getId()));
+		assertTrue("Did not return results for the correct hotel", resultMap.keySet().contains(expectedRoomId));
 	}
 	
 	/**

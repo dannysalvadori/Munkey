@@ -34,6 +34,7 @@ public class Option {
 		super();
 		this.hotelName = h.getName();
 		this.capacity = 0;
+		this.price = 0.0;
 		roomList = new ArrayList<Room>();
 	}
 
@@ -44,6 +45,7 @@ public class Option {
 	public void addRoom(Room room) {
 		roomList.add(room);
 		capacity += room.getCapacity();
+		price += room.getPricePerNight();
 	}
 	
 	public String getHotelName() {
@@ -80,6 +82,12 @@ public class Option {
 
 	public List<Room> getRoomList() {
 		return roomList;
+	}
+
+	@Override
+	public String toString() {
+		return "Option [hotelName=" + hotelName + ", price=" + price + ", description=" + description + ", capacity="
+				+ capacity + ", roomList=" + roomList + "]";
 	}
 	
 }

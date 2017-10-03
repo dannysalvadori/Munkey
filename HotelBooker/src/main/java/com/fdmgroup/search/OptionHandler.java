@@ -21,11 +21,11 @@ public class OptionHandler {
 	 * @param param Instance of SearchParameter
 	 * @return
 	 */
-	public static List<Option> calculateOptions(SearchParameter param) {
+	public static List<Option> calculateOptions(SearchParameter param, EntityManagerFactory emf) {
 		
 		List<Option> optionList = new ArrayList<Option>();
 		
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hb_persistence_unit");
+//		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hb_persistence_unit");
 		RoomReservationService roomResService = new RoomReservationService(emf);
 		RoomService roomService = new RoomService(emf);
 		
@@ -54,6 +54,7 @@ public class OptionHandler {
 		// Filter out hotels without sufficient vacancies
 		List<Hotel> availableHotelList = new ArrayList<Hotel>();
 		for (Hotel hotel : localHotelList) {
+			System.out.println("Here's a hotel...");
 			if (hotel.isAvailable(param)) {
 				availableHotelList.add(hotel);
 			}

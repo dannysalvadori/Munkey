@@ -43,7 +43,7 @@ import com.fdmgroup.util.DateUtils;
 @Entity
 @Table(name = "Hotels")
 public class Hotel {
-	
+
 	@Id
 	@Column
 	private Integer id;
@@ -236,6 +236,13 @@ public class Hotel {
 
 	public void setRoomResMap(Map<Integer, List<RoomReservation>> roomResMap) {
 		this.roomResMap = roomResMap;
+	}
+	
+	@Override
+	public String toString() {
+		return "Hotel [id=" + id + ", name=" + name + ", street=" + street + ", city=" + city + ", postcode=" + postcode
+				+ ", latitude=" + latitude + ", longitude=" + longitude + ", distance=" + distance + ", roomMap="
+				+ roomMap + ", roomResMap=" + roomResMap + "]";
 	}
 		
 }

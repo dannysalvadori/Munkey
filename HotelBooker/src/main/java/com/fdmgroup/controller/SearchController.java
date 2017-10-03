@@ -6,6 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -70,7 +73,8 @@ public class SearchController {
 		searchParameters.findLatLong();		
 		
 		// Get options and add to model
-		List<Option> optionList = OptionHandler.calculateOptions(searchParameters);
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hb_persistence_unit");
+		List<Option> optionList = OptionHandler.calculateOptions(searchParameters, emf);
 		model.addAttribute("optionList", optionList);
 		return "search";
 	}

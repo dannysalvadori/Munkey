@@ -37,11 +37,13 @@ public class ReservationServiceTest {
 
 	@Test
 	public void persistReservationInsertsNewUserIntoDatabaseTest() {
+		// Create new reservation
 		reservationId++;
 		Reservation testReservation = createReservation(reservationId);
 		String testReference = testReservation.getReference();
 		reservationService.persistReservation(testReservation);
 		
+		// Confirm reservation got created
 		Reservation retrievedReservation = reservationService.findReservation(reservationId);
 		String retrievedReference = retrievedReservation.getReference();
 		assertEquals(testReference, retrievedReference);
@@ -49,53 +51,64 @@ public class ReservationServiceTest {
 	
 	@Test
 	public void findReservationByReferenceGetsReservationIfFoundTest() {
+		// Create reservation
 		reservationId++;
 		Reservation testReservation = createReservation(reservationId);
 		Integer expectedId = testReservation.getId();
 		reservationService.persistReservation(testReservation);
 		
+		// Confirm reservation can be queried using reference
 		Reservation retrievedReservation = reservationService.findReservationByReference(testReference+reservationId);
 		Integer retrievedId = retrievedReservation.getId();
-		assertEquals(expectedId, retrievedId);
+		assertEquals("Reservation id was incorrect", expectedId, retrievedId);
 	}
 	
 	@Test
 	public void findReservationByReferenceReturnsNullIfNotFoundTest() {
+		// Create reservation
 		reservationId++;
 		Reservation testReservation = createReservation(reservationId);
 		reservationService.persistReservation(testReservation);
 		
+		// Confirm that findReservation returns null if searching for an invalid reference
 		Reservation retrievedReservation = reservationService.findReservationByReference("Bogus Reference");
-		assertEquals(null, retrievedReservation);
+		assertEquals("Retrieve output was incorrect", null, retrievedReservation);
 	}
 
 	@Test
 	public void updateUserAltersTheDetailsOfAnExistingUserTest() {
+		// Create reservation
 		reservationId++;
 		Reservation testReference = createReservation(reservationId);
 		reservationService.persistReservation(testReference);
 		
+		// Update reservation's reference
 		String newReference = "UPDATED";
 		testReference.setReference(newReference);
 		reservationService.updateReservation(testReference);
 		
+		// Confirm reference was updated in DB
 		Reservation retrievedReservation = reservationService.findReservation(reservationId);
-		assertEquals(newReference, retrievedReservation.getReference());
+		assertEquals("Reference was incorrect", newReference, retrievedReservation.getReference());
 	}
 	
 	@Test
 	public void removeUserDeletesUserFromDatabaseTest() {
+		// Create reservation
 		reservationId++;
 		Reservation testReservation = createReservation(reservationId);
 		reservationService.persistReservation(testReservation);
 		
-		// Check User was created successfully in the first place
+		// Confirm reservation was created successfully
 		Reservation retrievedReservation = reservationService.findReservation(reservationId);
 		assert(retrievedReservation != null);
 		
+		// Remove reservation
 		reservationService.removeReservation(reservationId);
+		
+		// Confirm reservation was deleted
 		Reservation deletedReservation = reservationService.findReservation(reservationId);
-		assert(deletedReservation == null);
+		assertEquals("Reservation was not deleted", null, deletedReservation);
 	}
 	
 	/**

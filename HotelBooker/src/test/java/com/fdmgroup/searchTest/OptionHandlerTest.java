@@ -12,8 +12,6 @@ import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -101,7 +99,8 @@ public class OptionHandlerTest {
 
 	@Test
 	public void generateOptionsReturnsListOfOptionsTest() {
-		System.out.println("All hotels at beginning of test: " + hotelService.findHotels());
+		// Data is created in @Before method
+		// Create search parameters
 		Date checkin = DateUtils.createDate(1, 1, 2000);
 		Date checkout = DateUtils.createDate(5, 1, 2000);
 		SearchParameter param = new SearchParameter();
@@ -111,36 +110,17 @@ public class OptionHandlerTest {
 		param.setCheckout(checkout);
 		param.setDistance(20000000.0);
 		param.findLatLong();
-		System.out.println("All hotels before calc: " + hotelService.findHotels());
+
+		// Start test
 		Object resultObj = OptionHandler.calculateOptions(param, emf);
-		System.out.println("All hotels after calc: " + hotelService.findHotels());
+		
+		// Confirm expected results
 		assertTrue("calculateOptions did not return a list", resultObj instanceof List<?>);
 		List<Object> resultList = (List<Object>) resultObj;
 		assertEquals("Got wrong number of results", 1, resultList.size());
 		assertTrue("Result list was not of type Option", resultList.get(0) instanceof Option);
 		Option result = (Option) resultList.get(0);
-		System.out.println(result);
-		assertTrue("Price was not correct",
-				testRoom.getPricePerNight() ==
-				result.getPrice()); 
+		assertTrue("Price was not correct", testRoom.getPricePerNight() == result.getPrice()); 
 	}
 
-	@After
-	public void deleteTestData() {
-//		System.out.println("Deleting...");
-//		System.out.println(roomService == null);
-//		System.out.println(testRoom.getId());
-//		roomService.removeRoom(testRoom.getId());
-//		System.out.println("A");
-//		for (RoomReservation roomRes : testRoomResList) {
-//			roomResService.removeRoomReservation(roomRes.getId());
-//		}
-//		System.out.println("B");
-//		userService.removeUser(testUser.getId());
-//		System.out.println("C");
-//		resService.removeReservation(testRes.getId());
-//		System.out.println("D");
-//		hotelService.removeHotel(testHotel.getId());
-//		System.out.println("done deleting!");
-	}
 }

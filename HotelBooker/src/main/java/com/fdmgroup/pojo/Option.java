@@ -1,5 +1,11 @@
 package com.fdmgroup.pojo;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fdmgroup.entity.Hotel;
+import com.fdmgroup.entity.Room;
+
 public class Option {
 
 	private String hotelName;
@@ -8,14 +14,43 @@ public class Option {
 	
 	private String description;
 	
-	// May exceed required capacity; used in option calculation
+	/**
+	 * May exceed capacity required by a search. Used to calculate the best option 
+	 */
 	private Integer capacity;
+	
+	/**
+	 * The list of rooms proposed in this option
+	 */
+	private List<Room> roomList;
 
+	
+	public Option() {
+		super();
+		roomList = new ArrayList<Room>();
+	}
+	
+	public Option(Hotel h) {
+		super();
+		this.hotelName = h.getName();
+		this.capacity = 0;
+		this.price = 0.0;
+		roomList = new ArrayList<Room>();
+	}
+
+	/**
+	 * Add a room to the room list and increment capacity accordingly
+	 * @param room
+	 */
+	public void addRoom(Room room) {
+		roomList.add(room);
+		capacity += room.getCapacity();
+		price += room.getPricePerNight();
+	}
+	
 	public String getHotelName() {
 		return hotelName;
 	}
-	
-	// Some kind of constructor...
 
 	public void setHotelName(String hotelName) {
 		this.hotelName = hotelName;
@@ -43,6 +78,16 @@ public class Option {
 
 	public void setCapacity(Integer capacity) {
 		this.capacity = capacity;
+	}
+
+	public List<Room> getRoomList() {
+		return roomList;
+	}
+
+	@Override
+	public String toString() {
+		return "Option [hotelName=" + hotelName + ", price=" + price + ", description=" + description + ", capacity="
+				+ capacity + ", roomList=" + roomList + "]";
 	}
 	
 }

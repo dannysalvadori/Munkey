@@ -21,11 +21,13 @@ public class UserServiceTest {
 
 	@Test
 	public void persistUserInsertsNewUserIntoDatabaseTest() {
+		// Create user
 		userId++;
 		User testUser = createUser(userId);
 		String testUserEmail = testUser.getEmail();
 		userService.persistUser(testUser);
 		
+		// Confirm user was persisted in DB
 		User retrievedUser = userService.findUser(userId);
 		String retrievedUserEmail = retrievedUser.getEmail();
 		assertEquals(testUserEmail, retrievedUserEmail);
@@ -33,31 +35,38 @@ public class UserServiceTest {
 
 	@Test
 	public void updateUserAltersTheDetailsOfAnExistingUserTest() {
+		// Create user
 		userId++;
 		User testUser = createUser(userId);
 		userService.persistUser(testUser);
 		
+		// Update user
 		String newEmail = "harry.alexander.smith@test.com";
 		testUser.setEmail(newEmail);
 		userService.updateUser(testUser);
 		
+		// Confirm user was updated on DB
 		User retrievedUser = userService.findUser(userId);
-		assertEquals(newEmail, retrievedUser.getEmail());
+		assertEquals("Email was incorrect", newEmail, retrievedUser.getEmail());
 	}
 	
 	@Test
 	public void removeUserDeletesUserFromDatabaseTest() {
+		// Create user
 		userId++;
 		User testUser = createUser(userId);
 		userService.persistUser(testUser);
 		
-		// Check User was created successfully in the first place
+		// Confirm user was created successfully
 		User retrievedUser = userService.findUser(userId);
-		assert(retrievedUser != null);
+		assertTrue("User was not created correctly", retrievedUser != null);
 		
+		// Delete user
 		userService.removeUser(userId);
+		
+		// Confirm user was deleted
 		User deletedUser = userService.findUser(userId);
-		assert(deletedUser == null);
+		assertEquals("User was not deleted", null, deletedUser);
 	}
 	
 	/**

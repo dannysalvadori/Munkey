@@ -15,15 +15,14 @@ public class HotelService {
 		this.emf = emf;
 	}
 
-	// N.B: Don't forget to close connection once transaction is complete!
 	public EntityManager getEntityManager() {
 		return emf.createEntityManager();
 	}
 
 	/**
-	 * Fetch Reservation from database by Id
+	 * Fetch Hotel from database by Id
 	 * @param id
-	 * @return Reservation identified by the given id
+	 * @return Hotel identified by the given id
 	 */
 	public Hotel findHotel(int id) {
 		Hotel hotel;
@@ -43,10 +42,7 @@ public class HotelService {
 	 * @param distanceKM (default 20km)
 	 * @return List of Hotels within distanceKM of the given location
 	 */
-	public List<Hotel> findHotelsByLocation(Double latitude, Double longitude) {
-		return findHotelsByLocation(latitude, longitude, 20.0);
-	}
-	public List<Hotel> findHotelsByLocation(Double latitude, Double longitude, Double distanceKM) {
+	public List<Hotel> findHotelsByLocation(double latitude, double longitude, Double distanceKM) {
 		EntityManager em = getEntityManager();
 		
 		Query query = em.createNativeQuery(
@@ -63,11 +59,28 @@ public class HotelService {
 		List<Hotel> hotelList = query.getResultList();
 		return hotelList;
 	}
+	
+	/**
+	 * Gets all Hotels. Used for testing only.
+	 * @return
+	 */
+	public List<Hotel> findHotels() {
+		EntityManager em = getEntityManager();
+		
+		Query query = em.createNativeQuery(
+			"SELECT *"
+			+ "FROM Hotels "
+			, Hotel.class
+		);
+		
+		List<Hotel> hotelList = query.getResultList();
+		return hotelList;
+	}
 		
 	/**
-	 * Insert Reservation into the database
-	 * @param reservation
-	 * @return the persisted Reservation instance
+	 * Insert Hotel into the database
+	 * @param hotel
+	 * @return the persisted Hotel instance
 	 */
 	public Hotel persistHotel(Hotel hotel) {
 		EntityManager em = getEntityManager();

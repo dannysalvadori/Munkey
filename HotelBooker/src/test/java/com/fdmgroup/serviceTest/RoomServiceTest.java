@@ -2,7 +2,7 @@ package com.fdmgroup.serviceTest;
 
 import static org.junit.Assert.*;
 
-import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -34,72 +34,87 @@ public class RoomServiceTest {
 
 	@Test
 	public void persistRoomInsertsNewRoomIntoDatabaseTest() {
-		roomId++;
-		Room testRoom = createRoom(roomId);
+		// Create room
+		Integer testId = ++roomId;
+		Room testRoom = createRoom(testId);
 		Integer testCapacity = testRoom.getCapacity();
 		roomService.persistRoom(testRoom);
 		
-		Room retrievedRoom = roomService.findRoom(roomId);
+		// Confirm room was persisted in DB
+		Room retrievedRoom = roomService.findRoom(testId);
 		Integer retrievedCapacity = retrievedRoom.getCapacity();
-		assertEquals(testCapacity, retrievedCapacity);
+		Integer retrievedId = retrievedRoom.getId();
+		assertEquals("Room Id was incorrect", testId, retrievedId);
+		assertEquals("Room capcity was incorrect", testCapacity, retrievedCapacity);
 	}
 	
 	@Test
 	public void findRoomsByHotelGetsRoomsIfFoundTest() {
+		// Create test hotel
 		roomId++;
-		
 		testHotel = new Hotel();
 		testHotel.setId(99);
 		hotelService.persistHotel(testHotel);
 		
+		// Create room
 		Room testRoom= createRoom(roomId);
 		testRoom.setHotel(testHotel);
 		Integer expectedId = testRoom.getId();
 		roomService.persistRoom(testRoom);
 		
-		List<Room> retrievedRoomList = roomService.findRoomsByHotel(testHotel);
-		assertEquals(1, retrievedRoomList.size());
-		assertEquals(expectedId, retrievedRoomList.get(0).getId());
+		// Confirm retrieve gets rooms mapped by their Ids
+		Map<Integer, Room> retrievedRoomMap = roomService.findRoomsByHotel(testHotel);
+		assertEquals("Room map was wrong size", 1, retrievedRoomMap.size());
+		assertTrue("Room Map did not contain expected Id", retrievedRoomMap.keySet().contains(expectedId));
 	}
 	
 	@Test
 	public void findRoomsByHotelReturnsEmptyListIfNoneFoundTest() {
+		// Create hotel, but no rooms
 		roomId++;
 		testHotel = new Hotel();
 		testHotel.setId(100);
 		hotelService.persistHotel(testHotel);
 		
-		List<Room> retrievedRoomList = roomService.findRoomsByHotel(testHotel);
-		assertEquals(0, retrievedRoomList.size());
+		// Confirm retrieve gets empty list
+		Map<Integer, Room> retrievedRoomMap = roomService.findRoomsByHotel(testHotel);
+		assertEquals("Got wrong number of rooms", 0, retrievedRoomMap.size());
 	}
 
 	@Test
 	public void updateRoomAltersTheDetailsOfAnExistingRoomTest() {
+		// Create room
 		roomId++;
 		Room testRoom = createRoom(roomId);
 		roomService.persistRoom(testRoom);
 		
+		// Update room
 		Integer newCapacity = 5;
 		testRoom.setCapacity(newCapacity);
 		roomService.updateRoom(testRoom);
 		
+		// Confirm DB room was updated
 		Room retrievedRoom = roomService.findRoom(roomId);
-		assertEquals(newCapacity, retrievedRoom.getCapacity());
+		assertEquals("Capacity was incorrect", newCapacity, retrievedRoom.getCapacity());
 	}
 	
 	@Test
 	public void removeRoomDeletesRoomFromDatabaseTest() {
+		// Create room
 		roomId++;
 		Room testRoom = createRoom(roomId);
 		roomService.persistRoom(testRoom);
 		
-		// Check Room was created successfully in the first place
+		// Confirm Room was created successfully
 		Room retrievedRoom = roomService.findRoom(roomId);
 		assert(retrievedRoom != null);
 		
+		// Delete room
 		roomService.removeRoom(roomId);
-		Room deletedReservation = roomService.findRoom(roomId);
-		assert(deletedReservation == null);
+		
+		// Confirm room was deleted on DB
+		Room deletedRoom = roomService.findRoom(roomId);
+		assertEquals("Room was not deleted", null, deletedRoom);
 	}
 	
 	/**

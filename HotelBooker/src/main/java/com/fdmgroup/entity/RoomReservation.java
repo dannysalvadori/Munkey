@@ -3,6 +3,9 @@ package com.fdmgroup.entity;
 import java.util.Date;
 import javax.persistence.*;
 
+/**
+ * Mapping instructions for RoomReservationService class
+ */
 @SqlResultSetMapping(
 	name="RoomReservationMapping",
 	classes={
@@ -57,7 +60,10 @@ public class RoomReservation {
 		this.hotelId = hotelId;
 	}
 	
-	// Copies non-Id column values from a given RoomReservation instance
+	/**
+	 * Copies non-Id column values from a given RoomReservation instance
+	 * @param roomReservation
+	 */
 	public void clone(RoomReservation roomReservation) {
 		this.room = roomReservation.getRoom();
 		this.reservation = roomReservation.getReservation();

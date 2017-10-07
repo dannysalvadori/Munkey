@@ -28,67 +28,80 @@ public class HotelServiceTest {
 	}
 		
 	@Test
-	public void findRoomsByHotelGetsRoomsIfFoundTest() {
-		hotelId++;
+	public void persistHotelInsertsNewHotelIntoDatabaseTest() {
+		// Create new hotel
+		Integer testId = ++hotelId;
+		Hotel testHotel = createHotel(testId);
+		String testName = testHotel.getName();
 		
-		// Create a Hotel in the middle of the Altlantic Ocean where
-		// no other hotels would realistically be
+		// Persist
+		hotelService.persistHotel(testHotel);
+		
+		// Confirm hotel got persisted
+		Hotel retrievedHotel = hotelService.findHotel(hotelId);
+		String retrievedName = retrievedHotel.getName();
+		Integer retrievedId = retrievedHotel.getId();
+		assertEquals("Hotel Id was incorrect", testId, retrievedId);
+		assertEquals("Hotel name was incorrect", testName, retrievedName);
+	}
+
+	@Test
+	public void findHotelsByLocationGetsHotelsWithinDistanceTest() {
+		// Create a sample Hotel record
 		String hotelName = "Middle of the Atlantic Hotel";
 		Double hotelLatitude = 48.181557;
 		Double hotelLongitude = -32.536252;
-		
-		Hotel unlikelyHotel = createHotel(hotelId);
+		Hotel unlikelyHotel = createHotel(++hotelId);
 		unlikelyHotel.setName(hotelName);
 		unlikelyHotel.setLatitude(hotelLatitude);
 		unlikelyHotel.setLongitude(hotelLongitude);
 		hotelService.persistHotel(unlikelyHotel);
 		
+		// Attempt to retrieve persisted hotel
 		List<Hotel> retrievedHotelList = hotelService.findHotelsByLocation(hotelLatitude, hotelLongitude, 20.0);
+		
+		// Confirm hotel values are as expected
 		assertEquals(1, retrievedHotelList.size());
 		Hotel retrievedHotel = retrievedHotelList.get(0);
-		assertEquals(hotelName, retrievedHotel.getName());
-		assert(retrievedHotel.getDistance() == 0.0);
-	}
-
-	@Test
-	public void persistHotelInsertsNewHotelIntoDatabaseTest() {
-		hotelId++;
-		Hotel testHotel = createHotel(hotelId);
-		String testName = testHotel.getName();
-		hotelService.persistHotel(testHotel);
-		
-		Hotel retrievedRoom = hotelService.findHotel(hotelId);
-		String retrievedName = retrievedRoom.getName();
-		assertEquals(testName, retrievedName);
+		assertEquals("Hotel name was incorrect", hotelName, retrievedHotel.getName());
+		assertEquals("Hotel location was incorrect",
+				Double.valueOf(0.0), Double.valueOf(retrievedHotel.getDistance()));
 	}
 
 	@Test
 	public void updateHotelAltersTheDetailsOfAnExistingHotelTest() {
-		hotelId++;
-		Hotel testHotel = createHotel(hotelId);
+		// Create sample hotel
+		Integer testId = ++hotelId;
+		Hotel testHotel = createHotel(testId);
 		hotelService.persistHotel(testHotel);
 		
+		// Update hotel name
 		String newName = "Updated Name";
 		testHotel.setName(newName);
 		hotelService.updateHotel(testHotel);
 		
-		Hotel retrievedRoom = hotelService.findHotel(hotelId);
-		assertEquals(newName, retrievedRoom.getName());
+		// Confirm hotel's name was changed
+		Hotel retrievedRoom = hotelService.findHotel(testId);
+		assertEquals("Hotel name was incorrect", newName, retrievedRoom.getName());
 	}
 	
 	@Test
 	public void removeHotelDeletesHotelFromDatabaseTest() {
-		hotelId++;
-		Hotel testRoom = createHotel(hotelId);
+		// Create hotel
+		Integer testId = ++hotelId;
+		Hotel testRoom = createHotel(testId);
 		hotelService.persistHotel(testRoom);
 		
-		// Check Hotel was created successfully in the first place
-		Hotel retrievedRoom = hotelService.findHotel(hotelId);
+		// Confirm hotel was created successfully
+		Hotel retrievedRoom = hotelService.findHotel(testId);
 		assert(retrievedRoom != null);
 		
-		hotelService.removeHotel(hotelId);
-		Hotel deletedReservation = hotelService.findHotel(hotelId);
-		assert(deletedReservation == null);
+		// Remove hotel
+		hotelService.removeHotel(testId);
+		
+		// Confirm hotel was removed
+		Hotel deletedReservation = hotelService.findHotel(testId);
+		assertEquals("Hotel was not deleted", null, deletedReservation);
 	}
 	
 	/**

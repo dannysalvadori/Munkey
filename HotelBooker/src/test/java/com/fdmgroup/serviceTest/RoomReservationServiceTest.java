@@ -5,8 +5,10 @@ import static org.junit.Assert.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -32,7 +34,7 @@ import com.fdmgroup.service.RoomReservationService;
 public class RoomReservationServiceTest {
 	
 	private static RoomReservationService roomResService;
-	private static int roomReservationId = 0;
+	private static Integer roomReservationId = 0;
 	private static Room testRoom;
 	private static Reservation testReservation;
 	private static Date testDate;
@@ -42,10 +44,9 @@ public class RoomReservationServiceTest {
 	public static void setupClass(){
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hb_persistence_unit");
 		roomResService = new RoomReservationService(emf);
-		
-		Calendar calendar = GregorianCalendar.getInstance();
-		calendar.set(2017, 07, 28);  // Aug 28th 2017
-		testDate = calendar.getTime();
+
+		// Date: 28th Aug 2017
+		testDate = DateUtils.createDate(28, 8, 2017);
 
 		// Prerequisite objects
 		testHotel = new Hotel();
@@ -70,88 +71,115 @@ public class RoomReservationServiceTest {
 	}
 	
 	@Test
+	public void persistRoomReservationInsertsNewRecordIntoDatabaseTest() {
+		// Create room reservation
+		roomReservationId++;
+		RoomReservation testRoomReservation = createRoomReservation(roomReservationId);
+		roomResService.persistRoomReservation(testRoomReservation);
+		
+		// Confirm room reservation was persisted
+		RoomReservation retrievedRoomReservation = roomResService.findRoomReservation(roomReservationId);
+		Date retrievedDate = retrievedRoomReservation.getDate();
+		assertTrue("RoomReservation was not persisted correctly: date did not match",
+				DateUtils.isSameDay(testDate, retrievedDate));
+	}
+	
+	@Test
 	public void findRoomReservationGetsRoomReservationIfFoundTest() {
+		// Create room reservation
 		roomReservationId++;
 		RoomReservation testRoomReservation = createRoomReservation(roomReservationId);
 		Integer expectedId = testRoomReservation.getId();
 		roomResService.persistRoomReservation(testRoomReservation);
 		
+		// Confirm room can be retrieved by Id
 		RoomReservation retrievedRoomReservation = roomResService.findRoomReservation(expectedId);
 		Integer retrievedId = retrievedRoomReservation.getId();
-		assertEquals(expectedId, retrievedId);
+		assertEquals("Id was incorrect", expectedId, retrievedId);
 	}
 	
 	@Test
 	public void findRoomReservationReturnsNullIfNotFoundTest() {
+		// Create room reservation
 		roomReservationId++;
 		RoomReservation testRoomReservation = createRoomReservation(roomReservationId);
 		roomResService.persistRoomReservation(testRoomReservation);
 		
+		// Attempt to retrieve a room by invalid Id
 		RoomReservation retrievedRoomReservation = roomResService.findRoomReservation(-30);
-		assertEquals(null, retrievedRoomReservation);
-	}
-	
-	@Test
-	public void persistRoomReservationInsertsNewRecordIntoDatabaseTest() {
-		roomReservationId++;
-		RoomReservation testRoomReservation = createRoomReservation(roomReservationId);
-		roomResService.persistRoomReservation(testRoomReservation);
 		
-		RoomReservation retrievedRoomReservation = roomResService.findRoomReservation(roomReservationId);
-		Date retrievedDate = retrievedRoomReservation.getDate();
-		assertTrue("RoomReservation was not persisted or was persisted inaccurately",
-			DateUtils.isSameDay(testDate, retrievedDate));
+		// Confirm retrieve result was null
+		assertEquals("Retrieve return unexpected results", null, retrievedRoomReservation);
 	}
 
 	@Test
 	public void updateRoomReservationAltersTheDetailsOfAnExistingRecordTest() {
+		// Create room reservation
 		roomReservationId++;
 		RoomReservation testRoomReservation = createRoomReservation(roomReservationId);
 		roomResService.persistRoomReservation(testRoomReservation);
 		
+		// Update room reservation's date
 		Date newDate = DateUtils.createDate(27, 8, 2017);
-		
 		testRoomReservation.setDate(newDate);
 		roomResService.updateRoomReservation(testRoomReservation);
 		
+		// Confirm date was updated in DB
 		RoomReservation retrievedRoomReservation = roomResService.findRoomReservation(roomReservationId);
 		assertTrue("Date was not updated", DateUtils.isSameDay(newDate, retrievedRoomReservation.getDate()));
 	}
 	
 	@Test
 	public void removeRoomReservationDeletesRecordFromDatabaseTest() {
+		// Create room reservation
 		roomReservationId++;
 		RoomReservation testRoomReservation = createRoomReservation(roomReservationId);
 		roomResService.persistRoomReservation(testRoomReservation);
 		
-		// Check User was created successfully in the first place
+		// Confirm the room reservation was created successfully
 		RoomReservation retrievedRoomReservation = roomResService.findRoomReservation(roomReservationId);
 		assert(retrievedRoomReservation != null);
 		
+		// Remove room reservation
 		roomResService.removeRoomReservation(roomReservationId);
+		
+		// Confirm room reservation was removed from DB
 		RoomReservation deletedRoomReservation = roomResService.findRoomReservation(roomReservationId);
-		assert(deletedRoomReservation == null);
+		assertEquals("Room reservation was not removed", null, deletedRoomReservation);
 	}
 	
 	@Test
 	public void findRoomReservationsByHotelMapsOccupiedRoomsByHotelTest() {
+		// Create room reservation
 		roomReservationId++;
 		RoomReservation testRoomReservation = createRoomReservation(roomReservationId);
 		roomResService.persistRoomReservation(testRoomReservation);
 		
+		// Create date parameters that surround the created reservation
 		Date checkin = DateUtils.createDate(24, 8, 2017);
 		Date checkout = DateUtils.createDate(29, 8, 2017);		
 		
+		// Get room reservations mapped by room Id for the reservation's hotel
 		Map<Integer, List<RoomReservation>> resultMap
 			= roomResService.findRoomReservationsByHotel(
 				testHotel.getId(), //500
-				DateUtils.formatDate(checkin), //'24-AUG-17'
-				DateUtils.formatDate(checkout) //'29-AUG-17'
+				DateUtils.formatDate(checkin), // 24-AUG-17
+				DateUtils.formatDate(checkout) // 29-AUG-17
 		);
 		
+		// Confirm the results include the created room reservation
+		Integer expectedRoomId = testRoom.getId();
 		assertTrue("Returned null", resultMap != null);
 		assertTrue("Returned no results", resultMap.keySet().size() > 0);
-		assertTrue("Did not return results for the correct hotel", resultMap.keySet().contains(testHotel.getId()));
+		assertTrue("Did not return results for the correct hotel", resultMap.keySet().contains(expectedRoomId));
+		List<RoomReservation> roomReservationList = resultMap.get(expectedRoomId);
+		assertTrue("Room had no reservations", roomReservationList.size() > 0);
+		Set<Integer> roomResIdSet = new HashSet<Integer>();
+		for (RoomReservation roomRes : roomReservationList) {
+			roomResIdSet.add(roomRes.getId());
+		}
+		assertTrue("Room reservations did not include sample ("+roomReservationId+")",
+				roomResIdSet.contains(roomReservationId));
 	}
 	
 	/**

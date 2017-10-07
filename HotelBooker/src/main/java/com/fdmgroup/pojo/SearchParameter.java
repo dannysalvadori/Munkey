@@ -3,7 +3,7 @@ package com.fdmgroup.pojo;
 import java.util.Date;
 
 /**
- * Hold search parameters for calculating Options
+ * Holds search parameters for calculating options
  */
 public class SearchParameter {
 
@@ -21,24 +21,13 @@ public class SearchParameter {
 	
 	private Double longitude;
 	
-	public SearchParameter() {
-		System.out.println("I got instantiated!");
-	}
-	
-	public SearchParameter(String locationString, Integer numberOfGuests, Date checkin, Date checkout) {
-		setLatLong(locationString);
-		this.locationString = locationString;
-		this.numberOfGuests = numberOfGuests;
-		this.checkin = checkin;
-		this.checkout = checkout;
-	}
-	
 	/**
 	 * TODO: Will populate latitude and longitude of specified location string
 	 */
-	private void setLatLong(String location) {
-		//latitude = abc;
-		//longitude = xyz;
+	public void findLatLong() {
+		// use locationString and geoCoding to get latitude and longitude
+		latitude = 50.0;
+		longitude = -0.9;
 	}
 
 	public Integer getNumberOfGuests() {
@@ -81,11 +70,11 @@ public class SearchParameter {
 		this.distance = distance;
 	}
 
-	public Double getLatitude() {
+	public double getLatitude() {
 		return latitude;
 	}
 	
-	public void setLatitude(Double latitude) {
+	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
 
@@ -95,6 +84,13 @@ public class SearchParameter {
 
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
+	}
+	
+	@Override
+	public String toString() {
+		return "SearchParameter [locationString=" + locationString + ", numberOfGuests=" + numberOfGuests + ", checkin="
+				+ checkin + ", checkout=" + checkout + ", distance=" + distance + ", latitude=" + latitude
+				+ ", longitude=" + longitude + "]";
 	}
 	
 }

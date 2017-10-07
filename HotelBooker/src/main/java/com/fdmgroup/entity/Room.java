@@ -36,7 +36,10 @@ public class Room {
 		this.id = id;
 	}
 	
-	// Copies non-Id column values from a given User object
+	/**
+	 * Copies non-Id column values from a given User object
+	 * @param room
+	 */
 	public void clone(Room room) {
 		this.hotel = room.getHotel();
 		this.capacity = room.getCapacity();
@@ -44,6 +47,76 @@ public class Room {
 		this.singleBeds = room.getSingleBeds();
 		this.pricePerNight = room.getPricePerNight();
 		this.pricePerPerson = room.getPricePerPerson();
+	}
+	
+	/**
+	 * Nested comparator class. Used to sort collections of rooms by price-per-person (asc)
+	 */
+	public class PPPComparator implements Comparator<Room> {
+	    public int compare(Room a, Room b) {
+	    	int comparison;
+	        if (a.getPricePerPerson() > b.getPricePerPerson()) {
+	        	comparison = 1;
+	        } else if (a.getPricePerPerson() == b.getPricePerPerson()) {
+	        	comparison = 0;
+	        } else {
+	        	comparison = -1;
+	        }
+	        return comparison;
+	    }
+	}
+	
+	/**
+	 * Nested comparator class. Used to sort first by capacity (asc), then by price-per-night (asc)
+	 */
+	public class CapacityThenPPNComparator implements Comparator<Room> {
+	    public int compare(Room a, Room b) {
+	    	int comparison;
+	        if (a.getCapacity() > b.getCapacity()) {
+	        	comparison = 1;
+	        } else if (a.getCapacity() < b.getCapacity()) {
+	        	comparison = -1;
+	        } else {
+	        	if (a.getPricePerNight() > b.getPricePerNight()) {
+	        		comparison = 1;	        		
+	        	} else if (a.getPricePerNight() < b.getPricePerNight()) {
+	        		comparison = -1;
+	        	} else {
+	        		comparison = 0;
+	        	}
+	        }
+	        return comparison;
+	    }
+	}
+	
+	public double getPricePerNight() {
+		return pricePerNight;
+	}
+
+	/**
+	 * If capacity greater than zero, adjusts price per person accordingly
+	 * @param pricePerNight
+	 */
+	public void setPricePerNight(double pricePerNight) {
+		this.pricePerNight = pricePerNight;
+		if (capacity > 0) {
+			this.pricePerPerson = pricePerNight / capacity; 
+		}
+	}
+
+	public double getPricePerPerson() {
+		return pricePerPerson;
+	}
+
+	/**
+	 * If capacity greater than zero, adjusts price per night accordingly
+	 * @param pricePerNight
+	 */
+	public void setPricePerPerson(double pricePerPerson) {
+		this.pricePerPerson = pricePerPerson;
+		if (capacity > 0) {
+			this.pricePerNight = pricePerPerson * capacity; 
+		}
 	}
 	
 	public Integer getId() {
@@ -84,65 +157,6 @@ public class Room {
 
 	public void setSingleBeds(Integer singleBeds) {
 		this.singleBeds = singleBeds;
-	}
-
-	public double getPricePerNight() {
-		return pricePerNight;
-	}
-
-	public void setPricePerNight(double pricePerNight) {
-		this.pricePerNight = pricePerNight;
-		if (capacity > 0) {
-			this.pricePerPerson = pricePerNight / capacity; 
-		}
-	}
-
-	public double getPricePerPerson() {
-		return pricePerPerson;
-	}
-
-	public void setPricePerPerson(double pricePerPerson) {
-		this.pricePerPerson = pricePerPerson;
-		if (capacity > 0) {
-			this.pricePerNight = pricePerPerson * capacity; 
-		}
-	}
-	
-	public class PPPComparator implements Comparator<Room> {
-	    // Used for sorting in ascending order of price per person
-	    public int compare(Room a, Room b) {
-	    	int comparison;
-	        if (a.getPricePerPerson() > b.getPricePerPerson()) {
-	        	comparison = 1;
-	        } else if (a.getPricePerPerson() == b.getPricePerPerson()) {
-	        	comparison = 0;
-	        } else {
-	        	comparison = -1;
-	        }
-	        return comparison;
-	    }
-	}
-	
-	// Collections.sort(roomList, new Room().new CapacityThenPPNComparator());
-	public class CapacityThenPPNComparator implements Comparator<Room> {
-	    // Used for sorting in ascending order of price per person
-	    public int compare(Room a, Room b) {
-	    	int comparison;
-	        if (a.getCapacity() > b.getCapacity()) {
-	        	comparison = 1;
-	        } else if (a.getCapacity() < b.getCapacity()) {
-	        	comparison = -1;
-	        } else {
-	        	if (a.getPricePerNight() > b.getPricePerNight()) {
-	        		comparison = 1;	        		
-	        	} else if (a.getPricePerNight() < b.getPricePerNight()) {
-	        		comparison = -1;
-	        	} else {
-	        		comparison = 0;
-	        	}
-	        }
-	        return comparison;
-	    }
 	}
 	
 }

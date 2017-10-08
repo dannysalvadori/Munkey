@@ -1,5 +1,6 @@
 package com.fdmgroup.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -117,32 +118,54 @@ public class Hotel {
 	public boolean isAvailable(SearchParameter param) {
 		// Assumed false until shown otherwise
 		Boolean isAvailable = false;
-		
-		// Get available rooms by removing those with conflicting reservations
-		Set<Integer> availableRoomIdSet = roomMap.keySet(); 
-		for (Integer roomId : roomResMap.keySet()) {
-			for (RoomReservation roomRes : roomResMap.get(roomId)) {
-				Date resDate = roomRes.getDate();
-				if ( resDate.after(param.getCheckin()) && resDate.before(param.getCheckout())
-						|| DateUtils.isSameDay(resDate, param.getCheckin())
-						|| DateUtils.isSameDay(resDate, param.getCheckout())
-				) {
-					availableRoomIdSet.remove(roomId);
-					continue;
-				}
-			}
-		}
-		
+				
 		// If the available rooms have enough capacity return true, else return false
 		Integer availableCapacity = 0;
-		for (Integer roomId : availableRoomIdSet) {
-			availableCapacity += roomMap.get(roomId).getCapacity();
+		for (Room room : getAvailableRooms(param)) {
+			availableCapacity += room.getCapacity();
 			if (availableCapacity >= param.getNumberOfGuests()) {
 				isAvailable = true;
 				break;
 			}
 		}
 		return isAvailable;
+	}
+	
+	/**
+	 * Returns a list of this hotel's available rooms given search parameters  
+	 * @param param Instance of SearchParameter containing checkin and checkout dates 
+	 * @return List<Room> An list containing the available rooms for this hotel
+	 */
+	public List<Room> getAvailableRooms(SearchParameter param) {
+		Set<Integer> availableRoomIdSet = getAvailableRoomIdSet(param);
+		List<Room> availableRoomList = new ArrayList<Room>();
+		for (Integer id : availableRoomIdSet) {
+			availableRoomList.add(roomMap.get(id));
+		}
+		return availableRoomList;
+	}
+	
+	/**
+	 * Returns the Ids of the rooms that are available given search parameters  
+	 * @param param Instance of SearchParameter containing checkin and checkout dates and the number of guests 
+	 * @return Set<Integer> A Set containing the IDs of this hotel's available rooms
+	 */
+	private Set<Integer> getAvailableRoomIdSet(SearchParameter param) {
+		// Get available rooms by removing those with conflicting reservations
+		Set<Integer> availableRoomIdSet = roomMap.keySet();
+		for (Integer roomId : roomResMap.keySet()) {
+			for (RoomReservation roomRes : roomResMap.get(roomId)) {
+				Date resDate = roomRes.getDate();
+				if ( resDate.after(param.getCheckin()) && resDate.before(param.getCheckout())
+						|| DateUtils.isSameDay(resDate, param.getCheckin())
+						|| DateUtils.isSameDay(resDate, param.getCheckout())
+						) {
+					availableRoomIdSet.remove(roomId);
+					continue;
+				}
+			}
+		}
+		return availableRoomIdSet;
 	}
 	
 	/**

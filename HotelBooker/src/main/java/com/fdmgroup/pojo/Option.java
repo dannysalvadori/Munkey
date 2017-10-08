@@ -1,6 +1,7 @@
 package com.fdmgroup.pojo;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import com.fdmgroup.entity.Hotel;
@@ -46,6 +47,23 @@ public class Option {
 		roomList.add(room);
 		capacity += room.getCapacity();
 		price += room.getPricePerNight();
+	}
+	
+	/**
+	 * Nested comparator class. Used to sort collections of Options by price (asc)
+	 */
+	public class PriceComparator implements Comparator<Option> {
+	    public int compare(Option a, Option b) {
+	    	int comparison;
+	        if (a.getPrice() > b.getPrice()) {
+	        	comparison = 1;
+	        } else if (a.getPrice() == b.getPrice()) {
+	        	comparison = 0;
+	        } else {
+	        	comparison = -1;
+	        }
+	        return comparison;
+	    }
 	}
 	
 	public String getHotelName() {

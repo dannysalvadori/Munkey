@@ -116,13 +116,13 @@ public class RoomReservationService {
 	public Map<Integer, List<RoomReservation>> findRoomReservationsByHotel(Integer hotelId, String checkin, String checkout) {
 		EntityManager em = getEntityManager();
 		Query query = em.createNativeQuery(
-			"SELECT res.Id, res.Reservation_Date, res.Room_Id, res.Reservation_Id, h.Id Hotel_Id " + 
-			"FROM Hotels h " + 
-			"INNER JOIN Rooms r ON h.Id = r.Hotel_Id " + 
-			"INNER JOIN Room_Reservations res ON r.Id = res.Room_Id " + 
-			"WHERE h.Id = :hotelId " + 
-			"AND res.Reservation_Date > :checkin " +
-			"AND res.Reservation_Date < :checkout " 
+			"SELECT res.Id, res.Reservation_Date, res.Room_Id, res.Reservation_Id, h.Id Hotel_Id " +
+			"FROM Hotels h " +
+			"INNER JOIN Rooms r ON h.Id = r.Hotel_Id " +
+			"INNER JOIN Room_Reservations res ON r.Id = res.Room_Id " +
+			"WHERE h.Id = :hotelId " +
+			"AND res.Reservation_Date >= :checkin " +
+			"AND res.Reservation_Date <= :checkout "
 			, "RoomReservationMapping"
 		);
 		query.setParameter("hotelId", hotelId);

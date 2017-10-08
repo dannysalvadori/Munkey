@@ -42,6 +42,7 @@
 					<td>Guests</td>
 					<td>City / Postcode</td>
 				</tr>
+				<tr>
 				    <td><input class="Input" type="date"></td>
 				    <td><input class="Input" type="date"></td>
 					<td><input class="Input" placeholder="4" type="Number" min="1" max="50"></td>
@@ -53,7 +54,11 @@
 	</div>
 	
 	<div id="SearchResultList">
-	
+		
+		<c:if test="${empty optionList}">
+			<div class="SearchResultItem BoxLight">No hotels found for your search. Please refine your search and try again.</div>
+		</c:if>
+		
 		<c:forEach items="${optionList}" var="option">
 		
 		    <div class="SearchResultItem BoxLight">
@@ -61,8 +66,9 @@
 	                <img src="https://media-cdn.tripadvisor.com/media/photo-o/0e/d5/8e/98/hotel-carlos-i.jpg" width="200px"/>
 	            </div>
 	            <div>
-	                <span class="HotelName"><c:out value="${option.hotelName}" /></span><br/>
-	                <span class="Price">&pound;<c:out value="${option.price}" /></span><br/>
+	                <span class="HotelName"><c:out value="${option.hotelName}"/></span><br/>
+	                <span class="Price">&pound;<c:out value="${option.price}"/></span><br/>
+	                <span class="Price">Capacity: <c:out value="${option.capacity}"/></span><br/>
 	                <c:out value="${option.description}" />
 	        	</div>
 	        	<div align="center">

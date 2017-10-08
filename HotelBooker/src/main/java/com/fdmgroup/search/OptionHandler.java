@@ -27,7 +27,7 @@ public class OptionHandler {
 		RoomReservationService roomResService = new RoomReservationService(emf);
 		RoomService roomService = new RoomService(emf);
 		
-		// First get query hotels that are in the right location
+		// First query hotels that are in the right location
 		List<Hotel> localHotelList = new HotelService(emf).findHotelsByLocation(
 			param.getLatitude(),
 			param.getLongitude(),

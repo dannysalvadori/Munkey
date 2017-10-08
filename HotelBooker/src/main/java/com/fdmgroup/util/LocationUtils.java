@@ -45,6 +45,4 @@ public class LocationUtils {
 		}
 		return null;
 	}
-	// TODO: Write test case
-	// Lat/Long for "Hatfield, UK": 51.7633660 / -0.2230900
 }

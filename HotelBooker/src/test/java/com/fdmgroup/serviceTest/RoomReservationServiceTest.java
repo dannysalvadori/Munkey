@@ -2,9 +2,7 @@ package com.fdmgroup.serviceTest;
 
 import static org.junit.Assert.*;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;

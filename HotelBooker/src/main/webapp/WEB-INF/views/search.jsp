@@ -42,6 +42,7 @@
 					<td>Guests</td>
 					<td>City / Postcode</td>
 				</tr>
+				<tr>
 				    <td><input class="Input" type="date"></td>
 				    <td><input class="Input" type="date"></td>
 					<td><input class="Input" placeholder="4" type="Number" min="1" max="50"></td>

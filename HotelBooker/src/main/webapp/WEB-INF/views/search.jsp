@@ -69,6 +69,7 @@
 	                <span class="HotelName"><c:out value="${option.hotelName}"/></span><br/>
 	                <span class="Price">&pound;<c:out value="${option.price}"/></span><br/>
 	                <span class="Price">Capacity: <c:out value="${option.capacity}"/></span><br/>
+	                <span>Distance: <c:out value="${option.distance}"/>km</span><br/>
 	                <c:out value="${option.description}" />
 	        	</div>
 	        	<div align="center">

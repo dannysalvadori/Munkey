@@ -61,8 +61,9 @@
 	                <img src="https://media-cdn.tripadvisor.com/media/photo-o/0e/d5/8e/98/hotel-carlos-i.jpg" width="200px"/>
 	            </div>
 	            <div>
-	                <span class="HotelName"><c:out value="${option.hotelName}" /></span><br/>
-	                <span class="Price">&pound;<c:out value="${option.price}" /></span><br/>
+	                <span class="HotelName"><c:out value="${option.hotelName}"/></span><br/>
+	                <span class="Price">&pound;<c:out value="${option.price}"/></span><br/>
+	                <span class="Price">Capacity: <c:out value="${option.capacity}"/></span><br/>
 	                <c:out value="${option.description}" />
 	        	</div>
 	        	<div align="center">

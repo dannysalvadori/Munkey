@@ -8,6 +8,8 @@ import com.fdmgroup.entity.Hotel;
 import com.fdmgroup.entity.Room;
 
 public class Option {
+	
+	private Hotel hotel;
 
 	private String hotelName;
 	
@@ -33,6 +35,7 @@ public class Option {
 	
 	public Option(Hotel h) {
 		super();
+		this.hotel = h;
 		this.hotelName = h.getName();
 		this.capacity = 0;
 		this.price = 0.0;
@@ -64,6 +67,10 @@ public class Option {
 	        }
 	        return comparison;
 	    }
+	}
+	
+	public String getDistance() {
+		return String.format("%.1f", hotel.getDistance());//.intValue());
 	}
 	
 	public String getHotelName() {

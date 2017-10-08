@@ -2,6 +2,8 @@ package com.fdmgroup.pojo;
 
 import java.util.Date;
 
+import com.fdmgroup.util.LocationUtils;
+
 /**
  * Holds search parameters for calculating options
  */
@@ -26,8 +28,15 @@ public class SearchParameter {
 	 */
 	public void findLatLong() {
 		// use locationString and geoCoding to get latitude and longitude
-		latitude = 50.0;
-		longitude = -0.9;
+		String[] latLong;
+		try {
+			latLong = LocationUtils.getLatLongPositions(locationString);
+			latitude = Double.valueOf(latLong[0]);
+			longitude = Double.valueOf(latLong[1]);
+		} catch (Exception e) {
+			// TODO: Error handling for invalid location string input
+			e.printStackTrace();
+		}
 	}
 
 	public Integer getNumberOfGuests() {

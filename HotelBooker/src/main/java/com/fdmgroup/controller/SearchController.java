@@ -64,13 +64,10 @@ public class SearchController {
 		Model model		
 	){
 		if (result.hasErrors()) {
-			//TODO: Proper error handlnig
-			System.out.println("error - bad search parameters");
+			//TODO: Proper error handling
 			model.addAttribute("searchParameters", searchParameters);
 			return "index";
-		}
-		// TODO: Translate search location into latitude and longitude 
-		searchParameters.findLatLong();		
+		}	
 		
 		// Get options and add to model
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hb_persistence_unit");

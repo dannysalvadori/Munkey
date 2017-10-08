@@ -153,17 +153,9 @@ public class Hotel {
 	private Set<Integer> getAvailableRoomIdSet(SearchParameter param) {
 		// Get available rooms by removing those with conflicting reservations
 		Set<Integer> availableRoomIdSet = roomMap.keySet();
-		System.out.println("roomMap.size(): " + roomMap.size());
-		System.out.println("roomResMap.size(): " + roomResMap.size());
 		for (Integer roomId : roomResMap.keySet()) {
 			for (RoomReservation roomRes : roomResMap.get(roomId)) {
 				Date resDate = roomRes.getDate();
-				System.out.println("---- CHECKING ROOM AVAILABILITY ----");
-				System.out.println("resDate: " + resDate);
-				System.out.println("p.checkin: " + param.getCheckin());
-				System.out.println("p.checkout: " + param.getCheckout());
-				System.out.println("resDate.after(param.getCheckin())? " + resDate.after(param.getCheckin()));
-				System.out.println("resDate.before(param.getCheckout())? " + resDate.before(param.getCheckout()));
 				if ( resDate.after(param.getCheckin()) && resDate.before(param.getCheckout())
 						|| DateUtils.isSameDay(resDate, param.getCheckin())
 						|| DateUtils.isSameDay(resDate, param.getCheckout())

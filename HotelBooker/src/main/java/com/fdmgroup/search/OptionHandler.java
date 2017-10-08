@@ -57,6 +57,8 @@ public class OptionHandler {
 			optionList.add(calculateCheapestOption(hotel, param));
 		}
 		
+		// Sort by price and return
+		optionList.sort(new Option(). new PriceComparator());
 		return optionList;
 	}
 	

@@ -53,7 +53,11 @@
 	</div>
 	
 	<div id="SearchResultList">
-	
+		
+		<c:if test="${empty optionList}">
+			<div class="SearchResultItem BoxLight">No hotels found for your search. Please refine your search and try again.</div>
+		</c:if>
+		
 		<c:forEach items="${optionList}" var="option">
 		
 		    <div class="SearchResultItem BoxLight">

@@ -30,17 +30,12 @@ public class OptionHandler {
 		RoomReservationService roomResService = new RoomReservationService(emf);
 		RoomService roomService = new RoomService(emf);
 		
-		System.out.println(param.getLatitude());
-		System.out.println(param.getLongitude());
-		System.out.println(param.getDistance());
-		
 		// First query hotels that are in the right location
 		List<Hotel> localHotelList = new HotelService(emf).findHotelsByLocation(
 			param.getLatitude(),
 			param.getLongitude(),
 			param.getDistance()
 		);
-		System.out.println(localHotelList.size() + " hotels found");
 		
 		for (Hotel localHotel : localHotelList) {
 			// TODO: You REALLY shouldn't be executing SQL in a for loop
@@ -60,7 +55,6 @@ public class OptionHandler {
 				availableHotelList.add(hotel);
 			}
 		}
-		System.out.println("Available hotels: " + availableHotelList.size());
 		
 		for (Hotel hotel : availableHotelList) {
 			optionList.add(calculateCheapestOption(hotel, param));

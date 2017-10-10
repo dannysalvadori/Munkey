@@ -21,7 +21,6 @@ public class LocationUtils {
 		String api = "http://maps.googleapis.com/maps/api/geocode/xml?address="
 				+ URLEncoder.encode(address, "UTF-8") + "&sensor=true";
 //				+ "&key=AIzaSyDXnIO-3Q8Uo42TsRUtAgxA7uX7SKM2FbQ"; // HotelBooker dev API-Key from Google
-		System.out.println("URL : "+api);
 		URL url = new URL(api);
 		HttpURLConnection httpConnection = (HttpURLConnection)url.openConnection();
 		httpConnection.connect();

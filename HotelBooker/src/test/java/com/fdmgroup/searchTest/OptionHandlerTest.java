@@ -62,7 +62,7 @@ public class OptionHandlerTest {
 		resService = new ReservationService(emf);
 		userService = new UserService(emf);
 		
-		testHotel = new Hotel(-1, "TestHotel", "Test Street", "Test City", "TE5 T01", 50.0, -0.9, null);
+		testHotel = new Hotel(-1, "TestHotel", "Test Street", "Test City", "TE5 T01", 51.7633660, -0.2230900, null);
 		hotelService.persistHotel(testHotel);
 		
 		testRoom = new Room(-10);
@@ -96,19 +96,41 @@ public class OptionHandlerTest {
 		}
 		roomResService.persistRoomReservation(testRoomResList);
 	}
-
+	
 	@Test
-	public void generateOptionsReturnsListOfOptionsTest() {
-		// Data is created in @Before method
-		// Create search parameters
+	public void generateOptionsReturnsEmptyListIfUnavailableTest() {
+		// Create search parameters. Note the available room is booked for this timeframe
 		Date checkin = DateUtils.createDate(1, 1, 2000);
 		Date checkout = DateUtils.createDate(5, 1, 2000);
 		SearchParameter param = new SearchParameter();
-		param.setLocationString("Hatfield");
+		param.setLocationString("Hatfield, UK");
 		param.setNumberOfGuests(4);
 		param.setCheckin(checkin);
 		param.setCheckout(checkout);
-		param.setDistance(20000000.0);
+		param.setDistance(20.0);
+		param.findLatLong();
+
+		// Start test
+		Object resultObj = OptionHandler.calculateOptions(param, emf);
+		
+		// Confirm expected results
+		assertTrue("calculateOptions did not return a list", resultObj instanceof List<?>);
+		List<Object> resultList = (List<Object>) resultObj;
+		assertEquals("Got wrong number of results", 0, resultList.size());
+	}
+
+	@Test
+	public void generateOptionsReturnsListOfOptionsIfAvailableTest() {
+		// Data is created in @Before method
+		// Create search parameters. Note the available time frame is free
+		Date checkin = DateUtils.createDate(6, 1, 2000);
+		Date checkout = DateUtils.createDate(10, 1, 2000);
+		SearchParameter param = new SearchParameter();
+		param.setLocationString("Hatfield, UK");
+		param.setNumberOfGuests(4);
+		param.setCheckin(checkin);
+		param.setCheckout(checkout);
+		param.setDistance(20.0);
 		param.findLatLong();
 
 		// Start test

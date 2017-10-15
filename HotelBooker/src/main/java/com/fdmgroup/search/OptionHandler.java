@@ -22,9 +22,6 @@ public class OptionHandler {
 	 */
 	public static List<Option> calculateOptions(SearchParameter param, EntityManagerFactory emf) {
 		
-		// Search location must be converted to latitude/longitude to find hotels 
-		param.findLatLong();
-		
 		List<Option> optionList = new ArrayList<Option>();
 		
 		RoomReservationService roomResService = new RoomReservationService(emf);

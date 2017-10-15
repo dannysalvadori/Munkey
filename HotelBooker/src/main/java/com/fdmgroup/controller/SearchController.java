@@ -63,11 +63,16 @@ public class SearchController {
 		BindingResult result,
 		Model model		
 	){
-		if (result.hasErrors()) {
-			//TODO: Proper error handling
-			model.addAttribute("searchParameters", searchParameters);
-			return "index";
-		}	
+		// Search location must be converted to latitude/longitude to find hotels 
+		searchParameters.findLatLong();
+		Boolean locationError = false;
+		if (searchParameters.getLatitude() == null || searchParameters.getLongitude() == null) {
+			locationError = true;
+		}
+		
+		if (result.hasErrors() || locationError) {
+			return "search";
+		}
 		
 		// Get options and add to model
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("hb_persistence_unit");

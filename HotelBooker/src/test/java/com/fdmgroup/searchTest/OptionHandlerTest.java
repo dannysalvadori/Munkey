@@ -134,6 +134,7 @@ public class OptionHandlerTest {
 		param.findLatLong();
 
 		// Start test
+		param.findLatLong();
 		Object resultObj = OptionHandler.calculateOptions(param, emf);
 		
 		// Confirm expected results

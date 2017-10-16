@@ -15,6 +15,10 @@ public class RoomTest {
 
 	private ArrayList<Room> roomList;
 
+	/**
+	 * Creates a number of rooms to be sorted in tests
+	 * @throws Exception
+	 */
 	@Before
 	public void setUp() throws Exception {
 		// Create list of rooms in no particular order
@@ -29,6 +33,9 @@ public class RoomTest {
 		roomList.add(createRoom(7, 65.0));
 	}
 
+	/**
+	 * Price per Person Comparator should sort a collection of Rooms by price per person (ascending)
+	 */
 	@Test
 	public void pppComparatorSortsByPricePerPersonAscendingTest() {
 		roomList.sort(new Room().new PPPComparator());
@@ -42,6 +49,10 @@ public class RoomTest {
 		assertEquals("Room #7 price was incorrect", 70.0, roomList.get(7).getPricePerPerson(), 0.001);
 	}
 	
+	/**
+	 * Capacity then Price per Night Comparator should sort a collection by capacity (ascending), tie-breaking on 
+	 * price per night (ascending).
+	 */
 	@Test
 	public void capacityThenPPNComparatorSortsByCapacityASCThenByTotalPriceASCTest() {
 		roomList.sort(new Room().new CapacityThenPPNComparator());

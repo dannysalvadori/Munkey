@@ -26,6 +26,9 @@ import com.fdmgroup.pojo.SearchParameter;
 import com.fdmgroup.search.OptionHandler;
 
 
+/**
+ * Primary MVC controller 
+ */
 @Controller
 public class SearchController {
 	

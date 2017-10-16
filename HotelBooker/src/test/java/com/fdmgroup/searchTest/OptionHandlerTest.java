@@ -31,8 +31,8 @@ import com.fdmgroup.service.UserService;
 import com.fdmgroup.util.DateUtils;
 
 /**
+ * Unit tests for OptionHandler class
  * @author User
- *
  */
 public class OptionHandlerTest {
 	
@@ -51,6 +51,7 @@ public class OptionHandlerTest {
 	private static EntityManagerFactory emf;
 
 	/**
+	 * Create setup data
 	 * @throws java.lang.Exception
 	 */
 	@Before
@@ -97,6 +98,9 @@ public class OptionHandlerTest {
 		roomResService.persistRoomReservation(testRoomResList);
 	}
 	
+	/**
+	 * The Generate Options method returns an empty list if no options can be made 
+	 */
 	@Test
 	public void generateOptionsReturnsEmptyListIfUnavailableTest() {
 		// Create search parameters. Note the available room is booked for this timeframe
@@ -119,6 +123,9 @@ public class OptionHandlerTest {
 		assertEquals("Got wrong number of results", 0, resultList.size());
 	}
 
+	/**
+	 * The Generate Options method returns an list of options if they can be made
+	 */
 	@Test
 	public void generateOptionsReturnsListOfOptionsIfAvailableTest() {
 		// Data is created in @Before method
